@@ -9,18 +9,31 @@ export const Header = () => {
             <div class="collapse navbar-collapse" id="navbarsExample03">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/#">Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/#">Home<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/#">Link</a>
+                        <a class="nav-link" href="/#">Items</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled" href="/#">Disabled</a>
+                        <a class="nav-link" href="/#">Admin Panel</a>
                     </li>
 
                 </ul>
-                <form class="form-inline my-2 my-md-0">
+                <form class="form-inline my-2 my-md-3">
                     <input class="form-control" type="text" placeholder="Search" />
+
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/#">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/#">Register</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/#">Logout</a>
+                        </li>
+                    </ul>
+
                 </form>
             </div>
         </nav>
