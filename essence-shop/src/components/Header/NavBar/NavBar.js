@@ -26,8 +26,9 @@ const NavBar = () => {
                     <div className={classes.grow} />
 
                     <Stack spacing={3} direction="row">
+                        
                         <Button variant="contained">Login</Button>
-                        <Button variant="contained">Register</Button>
+                        <Button variant="contained">Register</Button>                        
                         <Button variant="contained" onClick={isClicked}>Logout</Button>
                     </Stack>
 

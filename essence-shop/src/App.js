@@ -5,17 +5,23 @@ import { Header } from './components/Header/Header';
 import NavBar from './components/Header/NavBar/NavBar';
 import { Home } from './components/Home/Home';
 import Products from './components/Products/Products';
+import AddComponent from './components/Test/AddComponent';
+import EditComponent from './components/Test/EditComponent';
 import ListComponents from './components/Test/ListComponents';
+import Realtime from './components/Test/Realtime';
 
 
 
 function App() {
   return (
     <div >
-      <NavBar/>
+      <NavBar />
       <Products />
       <main>
-        <ListComponents/>
+        {/* <ListComponents /> */}
+        <AddComponent />
+        <EditComponent />
+        <Realtime />
       </main>
     </div>
   );
