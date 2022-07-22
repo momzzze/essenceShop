@@ -5,13 +5,17 @@ import { ShoppingCart } from '@material-ui/icons';
 import useStyles from './navStyle';
 import logo from '../../../assets/essence.png';
 import { Stack } from '@mui/material';
+import { logout } from '../../Auth/authLogic';
+import { auth } from '../../../lib/init-firebase';
 
 
 const NavBar = () => {
     const classes = useStyles()
 
-    const isClicked=()=>{
-        console.log('Click');
+    const isClickedLogout=()=>{
+        logout();
+        console.log('user logout');
+        console.log(auth.currentUser);
     }
 
     return (
@@ -29,13 +33,13 @@ const NavBar = () => {
                         
                         <Button variant="contained">Login</Button>
                         <Button variant="contained">Register</Button>                        
-                        <Button variant="contained" onClick={isClicked}>Logout</Button>
+                        <Button variant="contained" onClick={isClickedLogout}>Logout</Button>
                     </Stack>
 
 
                     <div className={classes.button}>
                         <IconButton area-label="Show cart items" color='inherit'>
-                            <Badge badgeContent={3} color='secondary'>
+                            <Badge badgeContent={2} color='secondary'>
                                 <ShoppingCart />
                             </Badge>
                         </IconButton>
