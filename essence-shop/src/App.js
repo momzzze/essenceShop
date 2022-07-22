@@ -14,20 +14,21 @@ import EditComponent from './components/Test/EditComponent';
 import ListComponents from './components/Test/ListComponents';
 import Realtime from './components/Test/Realtime';
 import { auth } from './lib/init-firebase';
-
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 
 function App() {
- 
+
   const [user, setUser] = useState({});
 
-  onAuthStateChanged(auth,(currentUser)=>{
+  onAuthStateChanged(auth, (currentUser) => {
     setUser(currentUser)
   })
 
 
   return (
-    <div >
+    <BrowserRouter>
+
       <NavBar />
       <Products />
       <main>
@@ -39,7 +40,9 @@ function App() {
         <Register />
         {user?.email || 'No user'}
       </main>
-    </div>
+
+    </BrowserRouter>
+
   );
 }
 

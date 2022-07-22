@@ -2,7 +2,7 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } f
 import { auth } from '../../lib/init-firebase';
 
 export const login = async ({
-     loginEmail, loginPassword
+    loginEmail, loginPassword
 }) => {
     try {
         const user = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
@@ -19,7 +19,8 @@ export const register = async ({
         const user = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
         console.log(user);
     } catch (error) {
-        console.log(error.message);
+        const err=error.message.split('Firebase: Error ')[1];        
+        return err.slice(1,err.length-2);
     }
 
 };

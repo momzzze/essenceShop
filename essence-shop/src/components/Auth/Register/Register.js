@@ -1,29 +1,51 @@
 import { ThemeProvider } from '@emotion/react';
 import { Grid, Paper, Avatar, FormControlLabel, Checkbox, Button, Typography, Link } from '@material-ui/core';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
-import { TextField } from '@mui/material';
+import { Alert, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import makeStyles, { themeAuth } from '../authStyle';
 import { register } from '../authLogic';
+import { async } from '@firebase/util';
+import { auth } from '../../../lib/init-firebase';
 
 const Register = () => {
     const [registerEmail, setRegisterEmail] = useState("");
     const [registerPassword, setRegisterPassword] = useState("");
+    const [registerConfirmPassword, setRegisterConfirmPassword] = useState("");
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const classes = makeStyles();
     const theme = themeAuth;
-    
 
-    const emailChangeHandler=(e)=>{
-        setRegisterEmail(e.target.value)
+
+    const emailChangeHandler = (e) => {
+        setRegisterEmail(e.target.value);
     }
-    const passwordChangeHandler=(e)=>{
-        setRegisterPassword(e.target.value)
+    const passwordChangeHandler = (e) => {
+        setRegisterPassword(e.target.value);
+    }
+    const passwordConfirmChangeHandler = (e) => {
+        setRegisterConfirmPassword(e.target.value);
     }
 
-    const registerHandler = (e) => {
-        e.preventDefault();        
-        register({ registerEmail, registerPassword });
+    const registerHandler =  (e) => {
+        e.preventDefault();
+
+        if (registerPassword !== registerConfirmPassword) {
+            return setError('Passwords do not match!');
+        }
+        // try {
+            setError("");
+            setLoading(true);
+            // await
+             register({ registerEmail, registerPassword }).then(res=>{
+                setError(res);
+             })
+        // } catch (error) {
+        //    setError(error);
+        // }
+        setLoading(false);
     }
 
 
@@ -39,7 +61,7 @@ const Register = () => {
                             </Avatar>
                             <h2>Sign up</h2>
                         </Grid>
-
+                        {error && <Alert severity="error">{error}</Alert>}
                         <TextField className={classes.textField}
                             required
                             id="email"
@@ -48,7 +70,7 @@ const Register = () => {
                             placeholder='Enter email'// value="Username"
                             fullWidth
                             value={registerEmail}
-                            margin="normal"                            
+                            margin="normal"
                             InputLabelProps={{
                                 shrink: true,
                             }}
@@ -75,7 +97,7 @@ const Register = () => {
                         />
                         <TextField
                             required
-                            id="password"
+                            id="confirmPassword"
                             name='confirmPassword'
                             label="Confirm Password"
                             placeholder='Confirm password'// value="Username"
@@ -88,6 +110,8 @@ const Register = () => {
                                     notchedOutline: classes.notchedOutline
                                 }
                             }}
+                            value={registerConfirmPassword}
+                            onChange={passwordConfirmChangeHandler}
                         />
                         <FormControlLabel
                             control={
@@ -102,7 +126,7 @@ const Register = () => {
                             }
                             label="Remember me"
                         />
-                        <Button className={classes.button} variant='contained' type='submit' color='primary' fullWidth>Sign up</Button>
+                        <Button className={classes.button} variant='contained' type='submit' color='primary' disabled={loading} fullWidth>Sign up</Button>
                         <Typography> Do you have an accaunt ?
                             <Link href="#">
                                 Sign in ?
@@ -110,7 +134,7 @@ const Register = () => {
                         </Typography>
                     </Paper>
                 </Grid>
-            </form>
+            </form>            
         </ThemeProvider>
 
     )
