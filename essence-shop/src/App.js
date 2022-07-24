@@ -24,25 +24,22 @@ function App() {
   onAuthStateChanged(auth, (currentUser) => {
     setUser(currentUser)
   })
-
-
   return (
-    <BrowserRouter>
-
+    <>
       <NavBar />
       <Products />
       <main>
-        {/* <ListComponents /> */}
-        {/* <AddComponent />
-        <EditComponent />
-        <Realtime /> */}
         <Login />
         <Register />
         {user?.email || 'No user'}
       </main>
+      <Routes>
+        <Route path='/' element={<Home/>} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
+      </Routes>
 
-    </BrowserRouter>
-
+    </>
   );
 }
 

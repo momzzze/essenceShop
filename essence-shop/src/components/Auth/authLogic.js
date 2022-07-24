@@ -19,8 +19,8 @@ export const register = async ({
         const user = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
         console.log(user);
     } catch (error) {
-        const err=error.message.split('Firebase: Error ')[1];        
-        return err.slice(1,err.length-2);
+        const err = error.message.split('Firebase: Error ')[1];
+        return err.slice(1, err.length - 2);
     }
 
 };

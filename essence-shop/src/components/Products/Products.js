@@ -3,7 +3,7 @@ import { Grid } from '@material-ui/core';
 
 
 import Product from './Product/Product';
-import useStles from './productsStyle';
+import useStyles from './productsStyle';
 
 const productsDB = [
 
@@ -15,7 +15,7 @@ const productsDB = [
 
 
 const Products = () => {
-    const classes = useStles();
+    const classes = useStyles();
 
     return (
         <main className={classes.content}>
