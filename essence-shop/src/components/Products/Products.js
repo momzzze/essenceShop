@@ -8,6 +8,7 @@ import { getDoc, getDocs, QuerySnapshot } from 'firebase/firestore';
 import { useEffect } from 'react';
 import db from '../../lib/init-firebase';
 
+
 const productsDB = [
     { id: 1, name: 'Picture', description: 'Some Picture', price: '$5', imageUrl: 'https://i.etsystatic.com/13123392/r/il/8c6f2f/3718797167/il_794xN.3718797167_ofvy.jpg' },
     { id: 2, name: 'Picture2', description: 'Some Picture 2', price: '$15', imageUrl: 'https://i.etsystatic.com/24098352/r/il/17d99c/2450997257/il_794xN.2450997257_rsbk.jpg' },
@@ -15,28 +16,21 @@ const productsDB = [
 
 ]
 
-const Products = () => {
+const Products = ({products}) => {
     const classes = useStyles();
-    const [products, setProducts] = useState([]);
+   
 
-    useEffect(() => {
-        getProducts();
-    }, []);
+    // const getProducts = () => {
+    //     getDocs(productCollectionRef)
+    //         .then(res => {
+    // const products = res.docs.map(doc => ({
+    //     data: doc.data(),
+    //     id: doc.id
+    // }));
+    // setProducts(products)
+    //         }).catch(error => console.log(error.message));
 
-    useEffect(() => {
-    }, [products]);
-
-    const getProducts = () => {
-        getDocs(productCollectionRef)
-            .then(res => {
-                const products = res.docs.map(doc => ({
-                    data: doc.data(),
-                    id: doc.id
-                }));
-                setProducts(products)
-            }).catch(error => console.log(error.message));
-
-    }
+    // }
 
     const clickedBtn = () => {
         products.forEach(product => {

@@ -1,9 +1,13 @@
 import React from 'react'
 
-const DetailsProduct = () => {
-
+const DetailsProduct = ({props}) => {
+  const clicked=()=>{
+      console.log(props);
+  }
   return (
-    <div>Details</div>
+    <>
+      <button onClick={clicked}>Props</button>
+    </>
   )
 }
 

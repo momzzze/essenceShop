@@ -7,16 +7,16 @@ import logo from '../../../assets/essenceLogo.png';
 import { Stack } from '@mui/material';
 import { logout } from '../../Auth/authLogic';
 import { auth } from '../../../lib/init-firebase';
-import { Link, NavLink,useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 
 const NavBar = () => {
     const classes = useStyles()
-    const navigate=useNavigate();
+    const navigate = useNavigate();
 
     const isClickedLogout = () => {
         logout();
-        navigate('/',{ replace: true });
-        
+        navigate('/', { replace: true });
+
         console.log('user logout');
         console.log(auth.currentUser);
     }
@@ -40,12 +40,12 @@ const NavBar = () => {
                             </ListItem>
                         </Link>
                         <Link className={classes.link} to='/product/list' variant='secondary' color='primary' >
-                                <ListItem button>
-                                    <ListItemText>
-                                        List Products
-                                    </ListItemText>
-                                </ListItem>
-                            </Link>
+                            <ListItem button>
+                                <ListItemText>
+                                    List Products
+                                </ListItemText>
+                            </ListItem>
+                        </Link>
                         {auth.currentUser &&
                             <><Link className={classes.link} to='/product/create' variant='secondary' color='primary' >
                                 <ListItem button>

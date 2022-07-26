@@ -17,15 +17,35 @@ import { Routes, Route } from 'react-router-dom';
 import CreateProduct from './components/Products/CreateProduct/CreateProduct';
 import EditProduct from './components/Products/EditProduct/EditProduct';
 import DetailsProduct from './components/Products/DetailsProdcut/DetailsProduct';
-
+import { useEffect } from 'react';
+import * as fbFetch from './lib/firebase.fetch';
 
 function App() {
 
   const [user, setUser] = useState({});
+  const [products, setProducts] = useState([]);
+  const [error, setError] = useState("");
+  const productList = fbFetch.getProducts();
 
   onAuthStateChanged(auth, (currentUser) => {
     setUser(currentUser)
   })
+
+  useEffect(() => {
+    productList.then(res => {
+      const products = res.docs.map(doc => ({
+        data: doc.data(),
+        id: doc.id
+      }));
+      setError("");
+      setProducts(products);
+    }).catch(error => setError(error.message));
+  }, []);
+
+  useEffect(() => {
+  }, [products]);
+
+
   return (
     <div className='app'>
       <NavBar />
@@ -35,8 +55,8 @@ function App() {
         <Route path='/register' element={<Register />} />
         <Route path='/product/create' element={<CreateProduct />} />
         <Route path='/product/edit' element={<EditProduct />} />
-        <Route path='/product/list' element={<Products />} />
-        <Route path='/product/:productId' element={<DetailsProduct />} />
+        <Route path='/product/list' element={<Products products={products} />} />
+        <Route path='/product/:productId' element={<DetailsProduct products={products} />} />
       </Routes>
       {user?.email || 'No user'}
     </div>

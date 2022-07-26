@@ -19,7 +19,6 @@ const CreateProduct = () => {
         author: "",
     });
     const [error, setError] = useState('');
-
     const classes = useStyles();
     const navigate = useNavigate();
 
@@ -30,6 +29,8 @@ const CreateProduct = () => {
             [name]: value,
         });
     };
+
+
     const createProductHandler = (e) => {
         e.preventDefault();
         const seller = auth.currentUser.uid;
@@ -37,11 +38,11 @@ const CreateProduct = () => {
             name: formValues.name,
             author: formValues.author,
             description: formValues.description,
-            imageUrl:formValues.imageUrl,
+            imageUrl: formValues.imageUrl,
             price: formValues.price,
-            seller    
+            seller
         }).then(res => { console.log(res) }).catch(error => { console.log(error.message) });
-        navigate('/product/list',{ replace: true })
+        navigate('/product/list', { replace: true })
         console.log(formValues);
     }
 

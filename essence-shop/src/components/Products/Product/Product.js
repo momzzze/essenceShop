@@ -27,7 +27,7 @@ const Product = ({ product, id }) => {
             </CardContent>
             <CardActions disableSpacing className={classes.cardActions}>
                 <Stack spacing={1} direction='row' m={1}>
-                    <Link to={`/product/${id}`} className={classes.link} variant='secondary' color='primary'>
+                    <Link to={`/product/${id}`} product={product} id={id} className={classes.link} variant='secondary' color='primary'>
                         <ListItem button>
                             <ListItemText color='primary'>
                                 Details
