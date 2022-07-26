@@ -35,7 +35,7 @@ const NavBar = () => {
                                     <img src={logo} alt='Essence' height="35px" className={classes.image} />
                                 </ListItemIcon>
                                 <ListItemText color='primary'>
-                                    Essence.js
+                                    Essence
                                 </ListItemText>
                             </ListItem>
                         </Link>
