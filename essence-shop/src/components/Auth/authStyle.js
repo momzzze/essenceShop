@@ -11,10 +11,10 @@ export default makeStyles((theme) => ({
         width: '25px',
     },
     paperStyle: {
-        margin: "40px auto",
+        margin: "90px auto",
         padding: "20px",
         height: "70vh",
-        width: 600,
+        width: 500,
     },
     avatarStyle: {
         backgroundColor: 'black',
