@@ -7,7 +7,7 @@ import makeStyles, { themeAuth } from '../authStyle';
 import { register } from '../authLogic';
 import { async } from '@firebase/util';
 import { auth } from '../../../lib/init-firebase';
-
+import { useNavigate } from 'react-router-dom';
 const Register = () => {
     const [registerEmail, setRegisterEmail] = useState("");
     const [registerPassword, setRegisterPassword] = useState("");
@@ -17,7 +17,7 @@ const Register = () => {
 
     const classes = makeStyles();
     const theme = themeAuth;
-
+    const navigate = useNavigate();
 
     const emailChangeHandler = (e) => {
         setRegisterEmail(e.target.value);
@@ -29,22 +29,21 @@ const Register = () => {
         setRegisterConfirmPassword(e.target.value);
     }
 
-    const registerHandler =  (e) => {
+    const registerHandler = (e) => {
         e.preventDefault();
-
         if (registerPassword !== registerConfirmPassword) {
             return setError('Passwords do not match!');
         }
-        // try {
-            setError("");
-            setLoading(true);
-            // await
-             register({ registerEmail, registerPassword }).then(res=>{
+        setError("");
+        setLoading(true);
+        register({ registerEmail, registerPassword }).then(res => {
+            if (res) {
                 setError(res);
-             })
-        // } catch (error) {
-        //    setError(error);
-        // }
+            } else {
+                navigate('/', { replace: true });
+            }
+
+        })
         setLoading(false);
     }
 
@@ -113,19 +112,7 @@ const Register = () => {
                             value={registerConfirmPassword}
                             onChange={passwordConfirmChangeHandler}
                         />
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    // checked={state.checkedB}
-                                    // onChange={handleChange}
-                                    name="checkedB"
-                                    style={{
-                                        color: "black"
-                                    }}
-                                />
-                            }
-                            label="Remember me"
-                        />
+                        
                         <Button className={classes.button} variant='contained' type='submit' color='primary' disabled={loading} fullWidth>Sign up</Button>
                         <Typography> Do you have an accaunt ?
                             <Link href="#">
@@ -134,7 +121,7 @@ const Register = () => {
                         </Typography>
                     </Paper>
                 </Grid>
-            </form>            
+            </form>
         </ThemeProvider>
 
     )

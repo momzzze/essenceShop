@@ -5,6 +5,7 @@ import { TextField } from '@mui/material';
 import React, { useState } from 'react';
 import makeStyles, { themeAuth } from '../authStyle';
 import { login } from '../authLogic';
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
     const [loginEmail, setLoginEmail] = useState("");
@@ -12,7 +13,7 @@ const Login = () => {
 
     const classes = makeStyles();
     const theme = themeAuth;
-
+    const navigate=useNavigate();
     const emailChangeHandler = (e) => {
         setLoginEmail(e.target.value)
     }
@@ -23,6 +24,7 @@ const Login = () => {
         e.preventDefault();
 
         login({ loginEmail, loginPassword });
+        navigate('/',{ replace: true });
     }
     return (
         <ThemeProvider theme={theme}>
@@ -69,19 +71,7 @@ const Login = () => {
                             }}
                             onChange={passwordChangeHandler}
                         />
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    // checked={state.checkedB}
-                                    // onChange={handleChange}
-                                    name="checkedB"
-                                    style={{
-                                        color: "black"
-                                    }}
-                                />
-                            }
-                            label="Remember me"
-                        />
+                        
                         <Button className={classes.button} variant='contained' type='submit' color='primary' fullWidth>Sign in</Button>
                         <Typography> You don't have an accaunt ?
                             <Link href="#">

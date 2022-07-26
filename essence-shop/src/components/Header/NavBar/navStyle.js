@@ -4,12 +4,21 @@ const drawerWidth = 0;
 
 export default makeStyles((theme) => ({
     appBar: {
+        padding: "0,0,70px,0",
         boxShadow: 'none',
         borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
         [theme.breakpoints.up('sm')]: {
             width: `calc(100% - ${drawerWidth}px)`,
             marginLeft: drawerWidth,
-        },
+        },        
+    },
+    link: {
+        textDecoration: "none",
+        color: theme.palette.text.primary,
+        "&:hover": {
+            color: theme.palette.text.primary,
+            textDecoration: "none"
+        }
     },
     title: {
         flexGrow: 1,
@@ -65,4 +74,5 @@ export default makeStyles((theme) => ({
             width: '20ch',
         },
     },
+
 }));

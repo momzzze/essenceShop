@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
 
-export default makeStyles(() => ({
+export default makeStyles((theme) => ({
     root: {
         maxWidth: '100%'
     },
@@ -15,5 +15,13 @@ export default makeStyles(() => ({
     cardContent: {
         display: 'flex',
         justifyContent: 'space-between'
-    }
+    },
+    link: {
+        textDecoration: "none",
+        color: '#FFAB91',
+        "&:hover": {
+            color:  '#FFAB91',
+            textDecoration: "none"
+        }
+    },
 }));
