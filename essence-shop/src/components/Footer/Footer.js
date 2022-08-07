@@ -1,57 +1,72 @@
-
+import React from 'react';
+import useStyles from './footerStyle';
+import { Grid, Hidden } from '@material-ui/core';
+import { Link } from 'react-router-dom';
+import facebook from '../../assets/facebook.svg';
+import twitter from '../../assets/twitter.svg';
+import instagram from '../../assets/instagram.svg';
+import footerAdornment from '../../assets/Footer Adornment.svg';
 export const Footer = () => {
-    return (
-        <>
-            {/* Footer */}
-            <footer className="text-center text-lg-start bg-light text-muted">
-                <section className="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
-                    <div className="me-5 d-none d-lg-block"><span>Get connected with us on social networks:</span></div>
-                    <div>
-                        <a href="/#" className="me-4 text-reset"><i className="fab fa-facebook-f" /></a>
-                        <a href="/#" className="me-4 text-reset"><i className="fab fa-twitter" /></a>
-                        <a href="/#" className="me-4 text-reset"><i className="fab fa-google" /></a>
-                        <a href="/#" className="me-4 text-reset"><i className="fab fa-instagram" /></a>
-                        <a href="/#" className="me-4 text-reset"><i className="fab fa-linkedin" /></a>
-                        <a href="/#" className="me-4 text-reset"><i className="fab fa-github" /></a>
-                    </div>
-                </section>
-                <section className="">
-                    <div className="container text-center text-md-start mt-5">
-                        <div className="row mt-3">
-                            <div className="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
-                                <h6 className="text-uppercase fw-bold mb-4">
-                                    <i className="fas fa-gem me-3" />Essence</h6>
-                                <p>This is one project created for educational purposes.
-                                    Builded on react.</p>
-                            </div>
-                            <div className="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
-                                <h6 className="text-uppercase fw-bold mb-4">Products</h6>
-                                <p><a href="#!" className="text-reset">Angular</a></p>
-                                <p><a href="#!" className="text-reset">React</a></p>
-                                <p><a href="#!" className="text-reset">Vue</a></p>
-                                <p><a href="#!" className="text-reset">Laravel</a></p>
-                            </div>
-                            <div className="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
-                                <h6 className="text-uppercase fw-bold mb-4">Useful links</h6>
-                                <p><a href="#!" className="text-reset">Pricing</a></p>
-                                <p><a href="#!" className="text-reset">Settings</a></p>
-                                <p><a href="#!" className="text-reset">Orders</a></p>
-                                <p><a href="#!" className="text-reset">Help</a></p>
-                            </div>
-                            <div className="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
-                                <h6 className="text-uppercase fw-bold mb-4">Contact</h6>
-                                <p><i className="fas fa-home me-3" /> Panaguyrishte, Tzar Osvoboditel 3, BG</p>
-                                <p><i className="fas fa-envelope me-3" />nikola@ninov.org</p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <div className="text-center p-4" style={{ backgroundColor: "rgba(0, 0, 0, 0.05)" }}>
-                    © 2022 Copyright:
-                    <a className="text-reset fw-bold" href="https://github.com/momzzze">momzzze</a>
-                </div>
-            </footer>
-        </>
 
+    const classes = useStyles();
+
+    return (
+        <footer className={classes.footer}>
+            <Hidden mdDown>
+                <Grid container justifyContent='center' className={classes.mainContainer}>
+                    <Grid item component={Link} to='/' className={classes.gridItem}>
+                        <Grid container direction='column' spacing={2}>
+                            <Grid item className={classes.link}>
+                                Home
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                    <Grid item component={Link} to='/product/list' className={classes.gridItem}>
+                        <Grid container direction='column' spacing={2}>
+                            <Grid item className={classes.link}>
+                                Products
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                    <Grid item component={Link} to='/about' className={classes.gridItem}>
+                        <Grid container direction='column' spacing={2}>
+                            <Grid item className={classes.link}>
+                                About Us
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                    <Grid item component={Link} to='/contact' className={classes.gridItem}>
+                        <Grid container direction='column' spacing={2}>
+                            <Grid item className={classes.link}>
+                                Contact Us
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                    <Grid item component={'a'} href="https://github.com/momzzze/essenceShop" rel='noopener noreferrer' target='_blank' className={classes.gridItem}>
+                        <Grid container direction='column' spacing={2}>
+                            <Grid item className={classes.link}>
+                                Project Page
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Hidden>
+            <img
+                alt='decorative slash'
+                src={footerAdornment}
+                className={classes.adornment}
+            />
+            <Grid justifyContent='flex-end' spacing={2} container className={classes.socialContainer}>
+                <Grid item component={'a'} href="http://www.facebook.com" rel='noopener noreferrer' target='_blank'>
+                    <img alt='facebook logo' src={facebook} className={classes.icon} />
+                </Grid>
+                <Grid item component={'a'} href="http://www.twitter.com" rel='noopener noreferrer' target='_blank'>
+                    <img alt='twitter logo' src={twitter} className={classes.icon} />
+                </Grid>
+                <Grid item component={'a'} href="http://www.instagram.com" rel='noopener noreferrer' target='_blank'>
+                    <img alt='instagram logo' src={instagram} className={classes.icon} />
+                </Grid>
+            </Grid>
+        </footer>
     )
 }
