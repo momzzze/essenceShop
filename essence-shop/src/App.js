@@ -40,7 +40,7 @@ function App() {
       setError("");
       setProducts(products);
     }).catch(error => setError(error.message));
-  }, [products]);
+  }, []);
 
 
 

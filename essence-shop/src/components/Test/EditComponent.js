@@ -6,7 +6,6 @@ import { db } from '../../lib/init-firebase';
 
 const EditComponent = () => {
 
-
     const [name, setName] = useState('');
     const [productId, setProductId] = useState('');
 
