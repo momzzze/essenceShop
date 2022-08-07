@@ -20,7 +20,7 @@ export default makeStyles((theme) => ({
         textDecoration: "none",
         color: '#FFAB91',
         "&:hover": {
-            color:  '#FFAB91',
+            color: '#FFAB91',
             textDecoration: "none"
         }
     },
