@@ -5,13 +5,13 @@ import { getFirestore } from 'firebase/firestore';
 // TODO: Add SDKs for Firebase products that you want to use
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAKtkSqfuYcZ_5s6i0XBsEh1lPkNLSNUBc",
-    authDomain: "essence-930bc.firebaseapp.com",
-    projectId: "essence-930bc",
-    storageBucket: "essence-930bc.appspot.com",
-    messagingSenderId: "201274163915",
-    appId: "1:201274163915:web:e110a69b3d7ad26b8a114e",
-    measurementId: "G-4WX55LPVZS"
+    apiKey: "AIzaSyCW8CvnlVVjWYeBJ9UQTPCdoDOvWb297fE",
+    authDomain: "essence2-76549.firebaseapp.com",
+    projectId: "essence2-76549",
+    storageBucket: "essence2-76549.appspot.com",
+    messagingSenderId: "242434598094",
+    appId: "1:242434598094:web:d7e2382a16ea307f965c9f",
+    measurementId: "G-PN7D5FYTYM"
 };
 
 // Initialize Firebase

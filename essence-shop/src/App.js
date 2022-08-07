@@ -40,10 +40,9 @@ function App() {
       setError("");
       setProducts(products);
     }).catch(error => setError(error.message));
-  }, []);
-
-  useEffect(() => {
   }, [products]);
+
+
 
 
   return (
@@ -54,11 +53,12 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/product/create' element={<CreateProduct />} />
-        <Route path='/product/edit' element={<EditProduct />} />
+        <Route path='/product/edit/:productId' element={<EditProduct />} />
         <Route path='/product/list' element={<Products products={products} />} />
         <Route path='/product/:productId' element={<DetailsProduct products={products} />} />
       </Routes>
       {user?.email || 'No user'}
+      <Footer />
     </div>
   );
 }
