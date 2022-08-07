@@ -10,13 +10,14 @@ export default makeStyles((theme) => ({
         width: 500,
     },
     avatarStyle: {
-        backgroundColor: 'black',
+        backgroundColor: theme.palette.primary.secundary,
     },
     button: {
-        color: 'white',
-        backgroundColor: 'black',
+        color: '#362626',
+        backgroundColor: theme.palette.primary.main,
         '&:hover': {
             backgroundColor: '#362626',
+            color: theme.palette.primary.main
         },
         margin: '20px 0'
     },

@@ -73,7 +73,7 @@ const EditProduct = () => {
                         type='submit'
                         color='primary'
                         fullWidth>
-                        Create
+                        Edit
                     </Button>
                 </Grid>
             </Paper>
