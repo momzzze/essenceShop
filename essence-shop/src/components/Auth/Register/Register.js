@@ -8,7 +8,9 @@ import { register } from '../authLogic';
 import { async } from '@firebase/util';
 import { auth } from '../../../lib/init-firebase';
 import { useNavigate } from 'react-router-dom';
+
 const Register = () => {
+
     const [registerEmail, setRegisterEmail] = useState("");
     const [registerPassword, setRegisterPassword] = useState("");
     const [registerConfirmPassword, setRegisterConfirmPassword] = useState("");
@@ -115,7 +117,7 @@ const Register = () => {
                         
                         <Button className={classes.button} variant='contained' type='submit' color='primary' disabled={loading} fullWidth>Sign up</Button>
                         <Typography> Do you have an accaunt ?
-                            <Link href="#">
+                            <Link href="/login">
                                 Sign in ?
                             </Link>
                         </Typography>

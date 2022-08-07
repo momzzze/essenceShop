@@ -1,7 +1,7 @@
 import { ThemeProvider } from '@emotion/react';
 import { Grid, Paper, Avatar, FormControlLabel, Checkbox, Button, Typography, Link } from '@material-ui/core';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
-import { TextField } from '@mui/material';
+import { Alert, TextField } from '@mui/material';
 import React, { useState } from 'react';
 import makeStyles, { themeAuth } from '../authStyle';
 import { login } from '../authLogic';
@@ -10,10 +10,11 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
     const [loginEmail, setLoginEmail] = useState("");
     const [loginPassword, setLoginPassword] = useState("");
+    const [error, setError] = useState('');
 
     const classes = makeStyles();
     const theme = themeAuth;
-    const navigate=useNavigate();
+    const navigate = useNavigate();
     const emailChangeHandler = (e) => {
         setLoginEmail(e.target.value)
     }
@@ -22,9 +23,16 @@ const Login = () => {
     }
     const loginHandler = (e) => {
         e.preventDefault();
+        login({ loginEmail, loginPassword }).then(res => {
+            if (res) {
+                setError(res);
+            } else {
+                navigate('/', { replace: true });
+            }
+        })
 
-        login({ loginEmail, loginPassword });
-        navigate('/',{ replace: true });
+
+        // navigate('/',{ replace: true });
     }
     return (
         <ThemeProvider theme={theme}>
@@ -37,7 +45,7 @@ const Login = () => {
                             </Avatar>
                             <h2>Sign in</h2>
                         </Grid>
-
+                        {error && <Alert severity="error">{error}</Alert>}
                         <TextField className={classes.textField}
                             required
                             id="email"
@@ -71,10 +79,10 @@ const Login = () => {
                             }}
                             onChange={passwordChangeHandler}
                         />
-                        
+
                         <Button className={classes.button} variant='contained' type='submit' color='primary' fullWidth>Sign in</Button>
                         <Typography> You don't have an accaunt ?
-                            <Link href="#">
+                            <Link href="/register">
                                 Sign Up ?
                             </Link>
                         </Typography>

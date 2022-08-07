@@ -17,11 +17,11 @@ export default makeStyles((theme) => ({
         width: 500,
     },
     avatarStyle: {
-        backgroundColor: 'black',
+        backgroundColor: theme.palette.primary.main,
     },
     button: {
         color: 'white',
-        backgroundColor: 'black',
+        backgroundColor: theme.palette.primary.main,
         '&:hover': {
             backgroundColor: '#362626',
         },
@@ -30,16 +30,15 @@ export default makeStyles((theme) => ({
     notchedOutline: {
         borderWidth: "1px",
         borderColor: "black !important"
-      }
+    }
 }));
 
 export const themeAuth = createTheme({
     palette: {
-      primary: {
-        main: "#212121", //this overide blue color
-        light: "#CFD8DC", //overides light blue
-        dark: "#424242", //overides dark blue color
-      },
+        primary: {
+            main: "#212121", //this overide blue color
+            light: "#CFD8DC", //overides light blue
+            dark: "#424242", //overides dark blue color
+        },
     },
-  });
-  
+});

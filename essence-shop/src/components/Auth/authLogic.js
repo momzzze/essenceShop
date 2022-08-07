@@ -8,7 +8,8 @@ export const login = async ({
         const user = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
         console.log(user);
     } catch (error) {
-        console.log(error.message);
+        const err = error.message.split('Firebase: Error ')[1];
+        return err.slice(1, err.length - 2);
     }
 };
 export const register = async ({
