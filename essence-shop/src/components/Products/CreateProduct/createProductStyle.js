@@ -13,10 +13,11 @@ export default makeStyles((theme) => ({
         backgroundColor: 'black',
     },
     button: {
-        color: 'white',
-        backgroundColor: 'black',
+        color: '#362626',
+        backgroundColor: theme.palette.primary.main,
         '&:hover': {
             backgroundColor: '#362626',
+            color: theme.palette.primary.main
         },
         margin: '20px 0'
     },

@@ -43,7 +43,6 @@ const CreateProduct = () => {
             seller
         }).then(res => { console.log(res) }).catch(error => { console.log(error.message) });
         navigate('/product/list', { replace: true })
-        console.log(formValues);
     }
 
     return (
