@@ -21,18 +21,18 @@ const Product = ({ product, id }) => {
                         {product.price}
                     </Typography>
                 </div>
-                <Typography variant='body2' color='textSecondary'>
+                {/* <Typography variant='body2' color='textSecondary'>
                     {product.description}
-                </Typography>
+                </Typography> */}
             </CardContent>
             <CardActions disableSpacing className={classes.cardActions}>
                 <Stack spacing={1} direction='row' m={1}>
-                    <Link to={`/product/${id}`} product={product} id={id} className={classes.link} variant='secondary' color='primary'>
-                        <ListItem button>
-                            <ListItemText color='primary'>
+                    <Link to={`/product/${id}`}className={classes.link} variant='secondary' color='primary'>
+                        {/* <ListItem button>
+                            <ListItemText color='primary'> */}
                                 Details
-                            </ListItemText>
-                        </ListItem>
+                            {/* </ListItemText>
+                        </ListItem> */}
                     </Link>
                 </Stack>
                 <IconButton aria-label="Add to cart">
