@@ -2,7 +2,7 @@ import { Avatar, Button, FormControl, FormHelperText, Grid, Input, InputLabel, P
 import React, { useState } from 'react'
 import useStyles from './createProductStyle';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import { addDoc } from 'firebase/firestore';
+import { addDoc, serverTimestamp } from 'firebase/firestore';
 import { productCollectionRef } from '../../../lib/firestore.collections';
 import { auth } from '../../../lib/init-firebase';
 import { useNavigate } from 'react-router-dom';
@@ -41,6 +41,7 @@ const CreateProduct = () => {
             description: formValues.description,
             imageUrl: formValues.imageUrl,
             price: formValues.price,
+            createdAt: serverTimestamp(),
             seller
         }).then(res => {
             if (res) {

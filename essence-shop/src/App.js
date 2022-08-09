@@ -20,6 +20,7 @@ import DetailsProduct from './components/Products/DetailsProdcut/DetailsProduct'
 import { useEffect } from 'react';
 import { ProductContext } from './contexts/ProductContext';
 import * as fbFetch from './lib/firebase.fetch';
+import User from './components/Users/User';
 
 function App() {
 
@@ -65,6 +66,7 @@ function App() {
           <Route path='/product/edit/:productId' element={<EditProduct products={products} />} />
           <Route path='/product/list' element={<Products products={products} />} />
           <Route path='/product/:productId' element={<DetailsProduct products={products} />} />
+          <Route path='/user/info' element={<User />} />
         </Routes>
         {user?.email || 'No user'}
         <Footer />

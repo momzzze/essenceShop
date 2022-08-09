@@ -12,6 +12,7 @@ import useStyles from './navStyle';
 import { ShoppingCart } from '@material-ui/icons';
 import { logout } from '../../Auth/authLogic';
 import { auth } from '../../../lib/init-firebase';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 function ElevationScroll(props) {
     const { children } = props;
@@ -279,11 +280,20 @@ const NavBar = () => {
                             <img alt="logo" className={classes.logo} src={logo} />
                         </Button>
                         {matches ? drawer : tabs}
-                        <IconButton className={classes.tab} component={Link} to='/product/cart' area-label="Show cart items">
-                            <Badge overlap='rectangular' badgeContent={2}>
-                                <ShoppingCart />
-                            </Badge>
-                        </IconButton>
+                        {auth.currentUser &&
+                            <>
+                                <IconButton className={classes.tab} component={Link} to='/user/info' area-label="Show user Info">
+                                    <Badge overlap='rectangular' >
+                                        <AccountCircleIcon />
+                                    </Badge>
+                                </IconButton>
+                                <IconButton className={classes.tab} component={Link} to='/product/cart' area-label="Show cart items">
+                                    <Badge overlap='rectangular' badgeContent={2}>
+                                        <ShoppingCart />
+                                    </Badge>
+                                </IconButton>
+                            </>
+                        }
                     </Toolbar>
                 </AppBar>
             </ElevationScroll>
