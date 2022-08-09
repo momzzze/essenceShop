@@ -3,7 +3,6 @@ import { Link, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import useStyles from './detailsProductStyle';
 import { Card, CardActionArea, CardActions, CardMedia, CardContent, Button, Typography, Grid, Paper, styled, ButtonBase, Box, CardHeader, IconButton } from '@material-ui/core';
-import { useEffect } from 'react';
 import { async } from '@firebase/util';
 import { doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '../../../lib/init-firebase';
@@ -12,22 +11,17 @@ import { ShoppingBasket } from '@material-ui/icons';
 import { theme } from '../../../theme';
 import { deleteProduct } from '../../../lib/firebase.fetch';
 import { useNavigate } from 'react-router-dom';
+import { ProductContext } from '../../../contexts/ProductContext';
+import { useEffect, useContext } from 'react';
 
 
-
-const DetailsProduct = ({ products }) => {
+const DetailsProduct = () => {
   const classes = useStyles();
   const redirect = useNavigate();
   const { productId } = useParams();
   const [error, setError] = useState("");
-  const [prod, setprod] = useState({
-    name: '',
-    imageUrl: '',
-    author: '',
-    price: 0,
-
-  })
-
+  const [prod, setprod] = useState({})
+  const { addToCart } = useContext(ProductContext);
 
   useEffect(() => {
     getProductById(productId).then((res) => {
@@ -36,17 +30,19 @@ const DetailsProduct = ({ products }) => {
   }, [setprod]);
 
   const product = prod.data;
-  const editUrl = `/product/edit/:${productId}`;
+  const editUrl = `/product/edit/${productId}`;
+
   const deleteProducts = () => {
     deleteProduct(productId);
     redirect('/product/list');
   }
-
+  const handleAddToCart = () => {
+    addToCart(product);
+  }
 
   return (
 
     <>
-
       <Box display='flex' alignContent='center' justifyContent="center">
         <Grid direction='row'
           justifyContent="center"
@@ -78,7 +74,7 @@ const DetailsProduct = ({ products }) => {
                       direction="column"
                       alignItems="flex-end">
                       <CardActions >
-                        <Button size='large' color='secondary'>Buy</Button>
+                        <Button size='large' color='secondary' onClick={()=> handleAddToCart()}>Buy</Button>
                       </CardActions>
                     </Grid>
                   </Grid>

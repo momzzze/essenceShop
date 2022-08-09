@@ -19,7 +19,8 @@ export const login = async ({
 
 export const register = async ({
     registerEmail,
-    registerPassword
+    registerPassword,
+    name
 }) => {
     try {
         const user = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);

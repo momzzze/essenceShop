@@ -16,7 +16,7 @@ const Register = () => {
     const [registerConfirmPassword, setRegisterConfirmPassword] = useState("");
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-
+    const [name, setName] = useState("");
     const classes = makeStyles();
     const theme = themeAuth;
     const navigate = useNavigate();
@@ -30,6 +30,9 @@ const Register = () => {
     const passwordConfirmChangeHandler = (e) => {
         setRegisterConfirmPassword(e.target.value);
     }
+    const nameChangeHandler = (e) => {
+        setName(e.target.value);
+    }
 
     const registerHandler = (e) => {
         e.preventDefault();
@@ -38,7 +41,8 @@ const Register = () => {
         }
         setError("");
         setLoading(true);
-        register({ registerEmail, registerPassword }).then(res => {
+        register({ registerEmail, registerPassword, name })
+        .then(res => {
             if (res) {
                 setError(res);
             } else {
@@ -62,6 +66,20 @@ const Register = () => {
                             </Avatar>
                             <h2>Sign up</h2>
                         </Grid>
+                        <TextField className={classes.textField}
+                            required
+                            id="name"
+                            name='name'
+                            label="Name"
+                            placeholder='Name'// value="Username"
+                            fullWidth
+                            value={name}
+                            margin="normal"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            onChange={nameChangeHandler}
+                        />
                         {error && <Alert severity="error">{error}</Alert>}
                         <TextField className={classes.textField}
                             required
@@ -114,7 +132,7 @@ const Register = () => {
                             value={registerConfirmPassword}
                             onChange={passwordConfirmChangeHandler}
                         />
-                        
+
                         <Button className={classes.button} variant='contained' type='submit' color='primary' disabled={loading} fullWidth>Sign up</Button>
                         <Typography> Do you have an accaunt ?
                             <Link href="/login">

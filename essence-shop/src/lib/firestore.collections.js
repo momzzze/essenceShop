@@ -1,4 +1,5 @@
-import {collection} from 'firebase/firestore';
+import { collection } from 'firebase/firestore';
 import { db } from './init-firebase';
 
-export const productCollectionRef=collection(db,'products');
+export const productCollectionRef = collection(db, 'products');
+export const userCollectionRef = collection(db, 'users');

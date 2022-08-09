@@ -6,6 +6,7 @@ import { addDoc } from 'firebase/firestore';
 import { productCollectionRef } from '../../../lib/firestore.collections';
 import { auth } from '../../../lib/init-firebase';
 import { useNavigate } from 'react-router-dom';
+import { createProduct } from '../../../lib/firebase.fetch';
 
 
 
@@ -34,15 +35,20 @@ const CreateProduct = () => {
     const createProductHandler = (e) => {
         e.preventDefault();
         const seller = auth.currentUser.uid;
-        addDoc(productCollectionRef, {
+        createProduct({
             name: formValues.name,
             author: formValues.author,
             description: formValues.description,
             imageUrl: formValues.imageUrl,
             price: formValues.price,
             seller
-        }).then(res => { console.log(res) }).catch(error => { console.log(error.message) });
-        navigate('/product/list', { replace: true })
+        }).then(res => {
+            if (res) {
+                setError(res);
+            } else {
+                navigate('/product/list', { replace: true })
+            }
+        })
     }
 
     return (
