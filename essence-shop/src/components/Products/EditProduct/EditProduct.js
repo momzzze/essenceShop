@@ -10,7 +10,7 @@ import useStyles from './editProductStyle';
 
 const EditProduct = () => {
     const classes = useStyles();
-    const { productId } = useParams();
+    const { productId } = useParams();    
     const navigate = useNavigate();
     const [prod, setprod] = useState({});
 
@@ -39,7 +39,6 @@ const EditProduct = () => {
                 setDescription(res.data.description);
             }
         })
-        console.log(name);
 
     }, [setprod,]);
 

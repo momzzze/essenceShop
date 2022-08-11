@@ -21,57 +21,93 @@ import { useEffect } from 'react';
 import { ProductContext } from './contexts/ProductContext';
 import * as fbFetch from './lib/firebase.fetch';
 import User from './components/Users/User';
+import { onSnapshot } from 'firebase/firestore';
+import { productCollectionRef } from './lib/firestore.collections';
+import { UserContext } from './contexts/UserContext';
 
 function App() {
-
-  const [user, setUser] = useState({});
-  const [products, setProducts] = useState([]);
+  // const [products, setProducts] = useState([]);
   const [error, setError] = useState("");
   const [cart, setCart] = useState({});
+  const [user, setUser] = useState({});
+  const [userData, setUserData] = useState({});
 
+  const products1 = [];
   onAuthStateChanged(auth, (currentUser) => {
     setUser(currentUser)
   })
 
-
-
-
+  onSnapshot(productCollectionRef, (snapshot) => {
+    snapshot.docs.forEach((doc) => {
+      products1.push({ ...doc.data(), id: doc.id })
+    })
+  })
   useEffect(() => {
-    let data;
-    const getProductsFromDb = async () => {
-      data = await fbFetch.getProducts();
-      setProducts(data.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id
-      })))
+    if (user) {
+      fbFetch.getUser(user.uid).then((res) => {
+        setUserData({
+          email: res.data.email,
+          name: res.data.name,
+          cart: {
+            items: [],
+            totalSum: 0
+          },
+          id: res.id,
+        })
+      })
     }
-    getProductsFromDb();
+  }, [user])
 
-  }, [])
+
+
+
+  // useEffect(() => {
+  //   let data;
+  //   const getProductsFromDb = async () => {
+  //     data = await fbFetch.getProducts();
+  //     setProducts(data.docs.map((doc) => ({
+  //       ...doc.data(),
+  //       id: doc.id
+  //     })))
+  //   }
+  //   getProductsFromDb();
+  // }, [])
+  const fetchCart = async () => {
+    const cartData = await userData.cart
+    setCart(cartData);
+  }
+
 
   const addToCart = async (product) => {
-    console.log(product);
+    let cartOptions = {
+      ...product,
+    }  
+    console.log(cartOptions);    
   }
 
   return (
-    <ProductContext.Provider value={{ addToCart }}>
-      <div className='app'>
-        <NavBar />
-        {error}
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/register' element={<Register />} />
-          <Route path='/product/create' element={<CreateProduct />} />
-          <Route path='/product/edit/:productId' element={<EditProduct products={products} />} />
-          <Route path='/product/list' element={<Products products={products} />} />
-          <Route path='/product/:productId' element={<DetailsProduct products={products} />} />
-          <Route path='/user/info' element={<User />} />
-        </Routes>
-        {user?.email || 'No user'}
-        <Footer />
-      </div>
-    </ProductContext.Provider>
+    <UserContext.Provider value={'user'}>
+      <ProductContext.Provider value={{ addToCart, products1 }}>
+        <div className='app'>
+          <NavBar />
+          {error}
+          {console.log(userData)}
+          {console.log(cart)}
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/register' element={<Register />} />
+            <Route path='/product/create' element={<CreateProduct />} />
+            <Route path='/product/list' element={<Products />} />
+            <Route path='/product/edit/:productId' element={<EditProduct />} />
+            <Route path='/product/:productId' element={<DetailsProduct />} />
+            <Route path='/user/info' element={<User />} />
+          </Routes>
+          {user?.email || 'No user'}
+          <Footer />
+        </div>
+      </ProductContext.Provider>
+    </UserContext.Provider>
   );
 }
 
