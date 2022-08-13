@@ -1,8 +1,8 @@
-import { Button, Grid, Paper, TextField } from '@material-ui/core';
+import { Button, Grid, List, Paper, TextField } from '@material-ui/core';
 import React from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { editProduct, getProductById } from '../../../lib/firebase.fetch';
 import { db } from '../../../lib/init-firebase';
 import { useNavigate } from 'react-router-dom';
@@ -10,7 +10,7 @@ import useStyles from './editProductStyle';
 
 const EditProduct = () => {
     const classes = useStyles();
-    const { productId } = useParams();    
+    const { productId } = useParams();
     const navigate = useNavigate();
     const [prod, setprod] = useState({});
 
@@ -127,8 +127,18 @@ const EditProduct = () => {
                             variant='contained'
                             type='submit'
                             color='primary'
-                            fullWidth>
+                            fullWidth
+                        >
                             Edit
+                        </Button>
+                        <Button
+                            className={classes.button}
+                            variant='contained'
+                            onClick={() => navigate(`/product/${prod.id}`)}
+                            color='primary'
+                            fullWidth
+                        >
+                            Back
                         </Button>
                     </Grid>
                 </Paper>

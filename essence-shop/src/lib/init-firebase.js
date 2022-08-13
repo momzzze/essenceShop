@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from 'firebase/auth';
-import { Firestore, getFirestore } from 'firebase/firestore';
+import { doc, Firestore, getFirestore } from 'firebase/firestore';
 // TODO: Add SDKs for Firebase products that you want to use
 
 const firebaseConfig = {
@@ -20,5 +20,4 @@ export const fbApp = initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);
 // Initialize firestore
 export const auth = getAuth(fbApp);
-
 export const db = getFirestore(fbApp);

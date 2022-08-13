@@ -8,106 +8,110 @@ import { Footer } from './components/Footer/Footer';
 import NavBar from './components/Header/NavBar/NavBar';
 import { Home } from './components/Home/Home';
 import Products from './components/Products/Products';
-import AddComponent from './components/Test/AddComponent';
-import EditComponent from './components/Test/EditComponent';
-import ListComponents from './components/Test/ListComponents';
-import Realtime from './components/Test/Realtime';
 import { auth } from './lib/init-firebase';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Link } from 'react-router-dom';
 import CreateProduct from './components/Products/CreateProduct/CreateProduct';
 import EditProduct from './components/Products/EditProduct/EditProduct';
 import DetailsProduct from './components/Products/DetailsProdcut/DetailsProduct';
-import { useEffect } from 'react';
+import { useEffect, } from 'react';
 import { ProductContext } from './contexts/ProductContext';
 import * as fbFetch from './lib/firebase.fetch';
 import User from './components/Users/User';
-import { onSnapshot } from 'firebase/firestore';
-import { productCollectionRef } from './lib/firestore.collections';
+import { getDocs, onSnapshot, orderBy, query } from 'firebase/firestore';
+import { cartCollectionRef, productCollectionRef, userCollectionRef } from './lib/firestore.collections';
 import { UserContext } from './contexts/UserContext';
+import Cart from './components/Cart/Cart';
+import CartProduct from './components/Cart/CartProduct';
+import Product from './components/Products/Product/Product';
 
 function App() {
-  // const [products, setProducts] = useState([]);
   const [error, setError] = useState("");
-  const [cart, setCart] = useState({});
   const [user, setUser] = useState({});
-  const [userData, setUserData] = useState({});
+  const [cart, setCart] = useState([]);
+  const [uid, setUid] = useState(null);
+  const [products, setProducts] = useState([]);
+  // const [product, setProduct] = useState({});
+  const carts = [];
+  let product = {};
+  let userData = [];
 
-  const products1 = [];
+
+  useEffect(() => {
+    getProducts();
+  }, [])
+
+
+  const addToCart = async (prod) => {
+    if (user.uid) {
+      product = prod
+      product['qty'] = 1;
+      product['TotalProductPrice'] = product.qty * product.price;
+      
+    }
+
+    console.log(product)
+  }
+
+
+  // let cartOptions = {
+  //   ...product,
+  // }
+  // await fbFetch.createCart(cartOptions);
+
+
+
+
+  const getProducts = async () => {
+    const docs = getDocs(productCollectionRef).then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
+        setProducts((oldState) => [...oldState, { ...doc.data(), id: doc.id }])
+      })
+    })
+  }
+
+
+  const handleAddToCart = () => {
+    console.log('Add Item');
+  }
+  const handleRemoveFromCart = () => {
+    console.log('Remove Item');
+  };
+
   onAuthStateChanged(auth, (currentUser) => {
     setUser(currentUser)
   })
 
-  onSnapshot(productCollectionRef, (snapshot) => {
+  onSnapshot(userCollectionRef, (snapshot) => {
     snapshot.docs.forEach((doc) => {
-      products1.push({ ...doc.data(), id: doc.id })
+      userData.pop();
+      userData.push({ ...doc.data(), id: doc.id })
     })
   })
-  useEffect(() => {
-    if (user) {
-      fbFetch.getUser(user.uid).then((res) => {
-        setUserData({
-          email: res.data.email,
-          name: res.data.name,
-          cart: {
-            items: [],
-            totalSum: 0
-          },
-          id: res.id,
-        })
-      })
-    }
-  }, [user])
 
 
-
-
-  // useEffect(() => {
-  //   let data;
-  //   const getProductsFromDb = async () => {
-  //     data = await fbFetch.getProducts();
-  //     setProducts(data.docs.map((doc) => ({
-  //       ...doc.data(),
-  //       id: doc.id
-  //     })))
-  //   }
-  //   getProductsFromDb();
-  // }, [])
-  const fetchCart = async () => {
-    const cartData = await userData.cart
-    setCart(cartData);
-  }
-
-
-  const addToCart = async (product) => {
-    let cartOptions = {
-      ...product,
-    }  
-    console.log(cartOptions);    
-  }
 
   return (
-    <UserContext.Provider value={'user'}>
-      <ProductContext.Provider value={{ addToCart, products1 }}>
-        <div className='app'>
-          <NavBar />
-          {error}
-          {console.log(userData)}
-          {console.log(cart)}
-          <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/register' element={<Register />} />
-            <Route path='/product/create' element={<CreateProduct />} />
-            <Route path='/product/list' element={<Products />} />
-            <Route path='/product/edit/:productId' element={<EditProduct />} />
-            <Route path='/product/:productId' element={<DetailsProduct />} />
-            <Route path='/user/info' element={<User />} />
-          </Routes>
-          {user?.email || 'No user'}
-          <Footer />
-        </div>
-      </ProductContext.Provider>
-    </UserContext.Provider>
+
+    <ProductContext.Provider value={{ user, userData, addToCart, carts, products, handleAddToCart, handleRemoveFromCart, }}>
+      <div className='app'>
+        <NavBar />
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
+          <Route path='/product/create' element={<CreateProduct />} />
+          <Route path='/product/list' element={<Products />} />
+          <Route path='/product/edit/:productId' element={<EditProduct />} />
+          <Route path='/product/:productId' element={<DetailsProduct />} />
+          <Route path='/user/info' element={<User userData={userData} />} />
+          <Route path='/cart' element={<Cart />} />
+          {/* <Route path='/cart/list' element={<CartProduct />} /> */}
+        </Routes>
+        {user?.email || 'No user'}
+        <Footer />
+      </div>
+    </ProductContext.Provider>
+
   );
 }
 

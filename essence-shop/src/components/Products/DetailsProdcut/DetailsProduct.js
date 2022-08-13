@@ -20,8 +20,9 @@ const DetailsProduct = () => {
   const redirect = useNavigate();
   const { productId } = useParams();
   const [error, setError] = useState("");
-  const [prod, setprod] = useState({})
-  const { addToCart } = useContext(ProductContext);
+  const [prod, setprod] = useState({});
+  // const [cart, setCart] = useState([]);
+
 
   useEffect(() => {
     getProductById(productId).then((res) => {
@@ -29,20 +30,23 @@ const DetailsProduct = () => {
     });
   }, [setprod]);
 
+
   const product = prod.data;
   const editUrl = `/product/edit/${productId}`;
 
   const deleteProducts = () => {
     deleteProduct(productId);
-    redirect('/product/list');
+    redirect('/');
   }
-  const handleAddToCart = () => {
-    addToCart(product);
-  }
+  // const handleAddToCart = (product) => {
+
+  //   onAdd(product);
+  // }
 
   return (
 
     <>
+      {/* {console.log(cartItems)} */}
       <Box display='flex' alignContent='center' justifyContent="center">
         <Grid direction='row'
           justifyContent="center"
@@ -74,7 +78,7 @@ const DetailsProduct = () => {
                       direction="column"
                       alignItems="flex-end">
                       <CardActions >
-                        <Button size='large' color='secondary' onClick={()=> handleAddToCart()}>Buy</Button>
+                        <Button size='large' color='secondary' onClick={() => redirect('/product/list')}>Back</Button>
                       </CardActions>
                     </Grid>
                   </Grid>

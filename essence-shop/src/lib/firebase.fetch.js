@@ -1,5 +1,5 @@
-import { addDoc, deleteDoc, doc, getDoc, getDocs, orderBy, query, updateDoc, where } from "firebase/firestore";
-import { productCollectionRef } from "./firestore.collections";
+import { addDoc, deleteDoc, deleteField, doc, getDoc, getDocs, orderBy, query, updateDoc, where } from "firebase/firestore";
+import { cartCollectionRef, productCollectionRef } from "./firestore.collections";
 import { db, fbApp } from "./init-firebase";
 
 //--------------------Products ----------------------
@@ -7,6 +7,7 @@ export const getProducts = async () => {
     const data = await getDocs(productCollectionRef);
     return data;
 }
+
 export const getProductById = async (productId) => {
     let result;
     const docRef = doc(db, 'products', productId);
@@ -59,5 +60,23 @@ export const editUser = async (id, data) => {
     const userDoc = doc(db, 'users', id);
     await updateDoc(userDoc, data)
 }
+export const deleteUserCart = async (id) => {
+    const userDoc = doc(db, `users/${id}`);
+    await updateDoc(userDoc, {
+        "cart": deleteField()
+      });
+}
 
 //-------------------------Cart--------------------------
+export const createCart = async (data) => {
+    try {
+        await addDoc(cartCollectionRef, data).then(res => { console.log(res) })
+    } catch (error) {
+        const err = error.message.split('Firebase: Error ')[1];
+        return err.slice(1, err.length - 2);
+    }
+}
+export const deleteCart = async (id) => {
+    const docRef = doc(db, 'cart', id);
+    deleteDoc(docRef).then(() => console.log('Cart deleted')).catch(error => console.log(error.message))
+}

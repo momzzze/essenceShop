@@ -7,7 +7,7 @@ import { productCollectionRef } from '../../../lib/firestore.collections';
 import { auth } from '../../../lib/init-firebase';
 import { useNavigate } from 'react-router-dom';
 import { createProduct } from '../../../lib/firebase.fetch';
-
+import { faker } from '@faker-js/faker';
 
 
 
@@ -22,6 +22,9 @@ const CreateProduct = () => {
     const [error, setError] = useState('');
     const classes = useStyles();
     const navigate = useNavigate();
+    const ratings = faker.ratings;
+    const fastDel = faker.random;
+    const inStock = faker.random;
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -42,12 +45,15 @@ const CreateProduct = () => {
             imageUrl: formValues.imageUrl,
             price: formValues.price,
             createdAt: serverTimestamp(),
+            inStock: Math.floor(Math.random() * (5 - 1 + 1)) + 1,
+            fastDelivery: Math.floor(Math.random() * (6 - 1 + 1)) + 1,
+            ratings: Math.floor(Math.random() * (5 - 1 + 1)) + 1,
             seller
         }).then(res => {
             if (res) {
                 setError(res);
             } else {
-                navigate('/product/list', { replace: true })
+                navigate('/', { replace: true })
             }
         })
     }
@@ -117,6 +123,15 @@ const CreateProduct = () => {
                         color='primary'
                         fullWidth>
                         Create
+                    </Button>
+                    <Button
+                        className={classes.button}
+                        variant='contained'
+                        onClick={() => navigate(`/product/list`)}
+                        color='primary'
+                        fullWidth
+                    >
+                        Back
                     </Button>
                 </Grid>
             </Paper>

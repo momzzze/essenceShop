@@ -24,4 +24,18 @@ export default makeStyles((theme) => ({
             textDecoration: "none"
         }
     },
+    buttonGreen: {
+        color: '#32CD32',
+        "&:hover": {
+            color: '#9ACD32',
+            textDecoration: "none"
+        }
+    },    
+    buttonRed: {
+        color: '#FF0000',
+        "&:hover": {
+            color: '#FF6347',
+            textDecoration: "none"
+        }
+    }
 }));

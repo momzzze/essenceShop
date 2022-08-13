@@ -2,17 +2,20 @@ import React from 'react';
 import {
     AppBar, Toolbar, SwipeableDrawer, IconButton, List, ListItem, ListItemText,
     useScrollTrigger, Menu, MenuItem, makeStyles,
-    Tabs, Tab, Button, useTheme, useMediaQuery, Badge
+    Tabs, Tab, Button, useTheme, useMediaQuery, Badge, Drawer, Select
 } from '@material-ui/core';
+import { FaShoppingCart } from 'react-icons/fa';
 import MenuIcon from "@material-ui/icons/Menu";
 import logo from '../../../assets/logo.png';
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import useStyles from './navStyle';
-import { ShoppingCart } from '@material-ui/icons';
+// import { ShoppingCart } from '@material-ui/icons';
 import { logout } from '../../Auth/authLogic';
 import { auth } from '../../../lib/init-firebase';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import { Dropdown, } from 'react-bootstrap';
+import Cart from '../../Cart/Cart';
 
 function ElevationScroll(props) {
     const { children } = props;
@@ -41,7 +44,6 @@ const NavBar = () => {
     const [selectedIndex, setSelectedIndex] = useState(0);
 
 
-
     const navLinkChangeHandler = (e, newValue) => {
         setValue(newValue);
     }
@@ -66,8 +68,6 @@ const NavBar = () => {
             selectedIndex: 0
         }
     ]
-
-
 
     const routes = [
         { name: 'Home', link: '/', activeIndex: 0 },
@@ -263,13 +263,13 @@ const NavBar = () => {
                         </ListItem>}
 
                 </List>
+
             </SwipeableDrawer>
             <IconButton className={classes.drawerIconContainer} onClick={() => setOpenDrawer(!openDrawer)}>
                 <MenuIcon className={classes.drawerIcon} />
             </IconButton>
         </React.Fragment>
     )
-
 
     return (
         <React.Fragment>
@@ -287,11 +287,23 @@ const NavBar = () => {
                                         <AccountCircleIcon />
                                     </Badge>
                                 </IconButton>
-                                <IconButton className={classes.tab} component={Link} to='/product/cart' area-label="Show cart items">
-                                    <Badge overlap='rectangular' badgeContent={2}>
-                                        <ShoppingCart />
+                                <Dropdown>
+                                    <Dropdown.Toggle variant='#fff'>
+                                        <FaShoppingCart fontSize="20px" />
+                                        <Badge overlap='rectangular'>{2}</Badge>
+                                    </Dropdown.Toggle>
+                                    <Dropdown.Menu style={{ minWidth: 370 }}>
+                                        <span style={{ padding: 10 }}>Cart is Empty!</span>
+                                    </Dropdown.Menu>
+                                </Dropdown>
+
+                                {/* <IconButton className={classes.tab} component={Link} to='/cart' area-label="Show cart items">
+                                    <Badge overlap='rectangular' color='error' badgeContent={2}>
+                                        <FaShoppingCart fontSize="20px" />
                                     </Badge>
-                                </IconButton>
+                                </IconButton> */}
+
+
                             </>
                         }
                     </Toolbar>
