@@ -51,4 +51,5 @@ export const register = async ({
 // };
 export const logout = async () => {
     await signOut(auth);
+    
 }

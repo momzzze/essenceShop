@@ -5,7 +5,7 @@ import './App.css';
 import Login from './components/Auth/Login/Login';
 import Register from './components/Auth/Register/Register';
 import { Footer } from './components/Footer/Footer';
-import NavBar from './components/Header/NavBar/NavBar';
+import NavBar from './components/Header/NavBar';
 import { Home } from './components/Home/Home';
 import Products from './components/Products/Products';
 import { auth, db } from './lib/init-firebase';
@@ -17,31 +17,46 @@ import { useEffect, } from 'react';
 import { ProductContext } from './contexts/ProductContext';
 import * as fbFetch from './lib/firebase.fetch';
 import User from './components/Users/User';
-import { getDocs, onSnapshot, orderBy, collection, query, where } from 'firebase/firestore';
-import { cartCollectionRef, productCollectionRef, userCollectionRef } from './lib/firestore.collections';
-import { UserContext } from './contexts/UserContext';
+import { getDocs, onSnapshot, collection, query, where, getDoc } from 'firebase/firestore';
+import { userCollectionRef } from './lib/firestore.collections';
+
 import Cart from './components/Cart/Cart';
-import CartProduct from './components/Cart/CartProduct';
-import Product from './components/Products/Product/Product';
 import About from './components/About/About';
-import Contact from './components/Contact/Contact';
+import { async } from '@firebase/util';
 
 function App() {
   const [error, setError] = useState("");
   const [user, setUser] = useState({});
   const [badger, setBadger] = useState(0);
+  const [userData, setUserData] = useState({});
 
-  let userData = [];
 
   useEffect(() => {
     badgerCalculator();
-  }, [])
+  }, [badger])
 
+  useEffect(() => {
+    getUserData();
+    badgerCalculator();
+  }, [user])
+
+  const getUserData = async () => {
+    const userRef = collection(db, `users`);
+    const q = query(userRef, where("email", "==", `${auth.currentUser?.email}`));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach(el => {
+      setUserData(el.data())
+    })
+    if (!user){
+      setUserData({})
+    }
+  }
+ 
   const badgerCalculator = async () => {
     const cartRef = collection(db, `cart ${auth.currentUser?.uid}`);
     const querySnapshot = await getDocs(cartRef);
     setBadger(0);
-    querySnapshot?.forEach((doc) => {
+    querySnapshot.forEach((doc) => {
       setBadger(old => old += (doc.data().qty))
     })
   }
@@ -76,15 +91,11 @@ function App() {
 
 
   onAuthStateChanged(auth, (currentUser) => {
-    setUser(currentUser)
+    setUser(currentUser);
   })
 
-  onSnapshot(userCollectionRef, (snapshot) => {
-    snapshot.docs.forEach((doc) => {
-      userData.pop();
-      userData.push({ ...doc.data(), id: doc.id })
-    })
-  })
+
+
 
   return (
 
@@ -103,7 +114,6 @@ function App() {
           <Route path='/user/info' element={<User userData={userData} />} />
           <Route path='/cart' element={<Cart />} />
           <Route path='/about' element={<About />} />
-          <Route path='/contact' element={<Contact />} />
         </Routes>
         {user?.email || 'No user'}
         <Footer />

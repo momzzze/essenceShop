@@ -6,17 +6,14 @@ import {
 } from '@material-ui/core';
 import { FaShoppingCart } from 'react-icons/fa';
 import MenuIcon from "@material-ui/icons/Menu";
-import logo from '../../../assets/logo.png';
+import logo from '../../assets/logo.png';
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import useStyles from './navStyle';
-// import { ShoppingCart } from '@material-ui/icons';
-import { logout } from '../../Auth/authLogic';
-import { auth } from '../../../lib/init-firebase';
+import { logout } from '../Auth/authLogic';
+import { auth } from '../../lib/init-firebase';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import { Dropdown, } from 'react-bootstrap';
-import Cart from '../../Cart/Cart';
-import { ProductContext } from '../../../contexts/ProductContext';
+import { ProductContext } from '../../contexts/ProductContext';
 
 function ElevationScroll(props) {
     const { children } = props;
@@ -42,7 +39,7 @@ const NavBar = () => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [openMenu, setOpenMenu] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(0);
-    const { badger } = useContext(ProductContext);
+    const { badger,setUser } = useContext(ProductContext);
 
     const navLinkChangeHandler = (e, newValue) => {
         setValue(newValue);
@@ -64,7 +61,6 @@ const NavBar = () => {
         { name: 'Home', link: '/', activeIndex: 0 },
         { name: 'Products', link: '/product/list', activeIndex: 1, ariaOwns: anchorEl ? 'simple-menu' : undefined, ariaPopup: anchorEl ? 'true' : undefined, mouseOver: event => handleClick(event) },
         { name: 'About us', link: '/about', activeIndex: 4 },
-        { name: 'Contact us', link: '/contact', activeIndex: 5 }
     ]
     useEffect(() => {
         [...routes].forEach(route => {
@@ -83,7 +79,7 @@ const NavBar = () => {
         })
     }, [value, selectedIndex, routes])
     const isClickedLogout = () => {
-        logout();
+        logout();        
         navigate('/', { replace: true });
         console.log('user logout');
         console.log(auth.currentUser);
@@ -115,14 +111,7 @@ const NavBar = () => {
                         label='About us'
                     />
                 }
-                 {!auth.currentUser &&
-                    <Tab
-                        className={classes.tab}
-                        component={Link}
-                        to='/contact'
-                        label='Contact us'
-                    />
-                }
+                 
                 {!auth.currentUser &&
                     <Tab
                         className={classes.tab}
@@ -162,14 +151,7 @@ const NavBar = () => {
                         label='Create Product'
                     />
                 }
-                {auth.currentUser &&
-                    <Tab
-                        className={classes.tab}
-                        component={Link}
-                        to='/contact'
-                        label='Contact us'
-                    />
-                }
+               
                 {auth.currentUser &&
                     <Tab
                         className={classes.tab}
