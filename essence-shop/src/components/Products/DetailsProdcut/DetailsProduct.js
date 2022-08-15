@@ -36,17 +36,12 @@ const DetailsProduct = () => {
 
   const deleteProducts = () => {
     deleteProduct(productId);
-    redirect('/');
+    redirect('/product/list');
   }
-  // const handleAddToCart = (product) => {
 
-  //   onAdd(product);
-  // }
 
   return (
-
     <>
-      {/* {console.log(cartItems)} */}
       <Box display='flex' alignContent='center' justifyContent="center">
         <Grid direction='row'
           justifyContent="center"

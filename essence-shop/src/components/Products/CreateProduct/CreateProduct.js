@@ -53,7 +53,7 @@ const CreateProduct = () => {
             if (res) {
                 setError(res);
             } else {
-                navigate('/', { replace: true })
+                navigate('/product/list', { replace: true })
             }
         })
     }

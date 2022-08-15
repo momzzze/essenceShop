@@ -8,7 +8,7 @@ import { Footer } from './components/Footer/Footer';
 import NavBar from './components/Header/NavBar/NavBar';
 import { Home } from './components/Home/Home';
 import Products from './components/Products/Products';
-import { auth } from './lib/init-firebase';
+import { auth, db } from './lib/init-firebase';
 import { Routes, Route, Link } from 'react-router-dom';
 import CreateProduct from './components/Products/CreateProduct/CreateProduct';
 import EditProduct from './components/Products/EditProduct/EditProduct';
@@ -17,7 +17,7 @@ import { useEffect, } from 'react';
 import { ProductContext } from './contexts/ProductContext';
 import * as fbFetch from './lib/firebase.fetch';
 import User from './components/Users/User';
-import { getDocs, onSnapshot, orderBy, query } from 'firebase/firestore';
+import { getDocs, onSnapshot, orderBy, collection, query, where } from 'firebase/firestore';
 import { cartCollectionRef, productCollectionRef, userCollectionRef } from './lib/firestore.collections';
 import { UserContext } from './contexts/UserContext';
 import Cart from './components/Cart/Cart';
@@ -26,56 +26,45 @@ import Product from './components/Products/Product/Product';
 
 function App() {
   const [error, setError] = useState("");
-  const [user, setUser] = useState({});
-  const [cart, setCart] = useState([]);
-  const [uid, setUid] = useState(null);
-  const [products, setProducts] = useState([]);
-  // const [product, setProduct] = useState({});
-  const carts = [];
-  let product = {};
+  const [user, setUser] = useState({});  
+  const [badger, setBadger] = useState(0);
+
   let userData = [];
+ 
 
-
-  useEffect(() => {
-    getProducts();
-  }, [])
+  const badgerCalculator = async () => {
+    const cartRef = collection(db, `cart ${auth.currentUser.uid}`);
+    
+  }
 
 
   const addToCart = async (prod) => {
-    if (user.uid) {
-      product = prod
-      product['qty'] = 1;
-      product['TotalProductPrice'] = product.qty * product.price;
-      
+    let product = {};
+    const cartRef = collection(db, `cart ${auth.currentUser.uid}`);
+    const q = query(cartRef, where("id", "==", `${prod.id}`));
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.empty) {
+      console.log("Empty");
+      if (user.uid) {
+        product = prod
+        product['qty'] = 1;
+        product['TotalProductPrice'] = product.qty * product.price;
+        setBadger(old => (old + 1));
+        fbFetch.createCart(user.uid, product)
+      }
+    } else {
+      querySnapshot.forEach((doc) => {
+        product = [];
+        product = doc.data();
+        product['qty'] += 1;
+        product['TotalProductPrice'] = product.qty * product.price;
+        setBadger(old => (old + 1));
+        fbFetch.editCart(user.uid, doc.id, product);
+      });
     }
-
-    console.log(product)
   }
 
-
-  // let cartOptions = {
-  //   ...product,
-  // }
-  // await fbFetch.createCart(cartOptions);
-
-
-
-
-  const getProducts = async () => {
-    const docs = getDocs(productCollectionRef).then((snapshot) => {
-      snapshot.docs.forEach((doc) => {
-        setProducts((oldState) => [...oldState, { ...doc.data(), id: doc.id }])
-      })
-    })
-  }
-
-
-  const handleAddToCart = () => {
-    console.log('Add Item');
-  }
-  const handleRemoveFromCart = () => {
-    console.log('Remove Item');
-  };
+  
 
   onAuthStateChanged(auth, (currentUser) => {
     setUser(currentUser)
@@ -88,11 +77,9 @@ function App() {
     })
   })
 
-
-
   return (
 
-    <ProductContext.Provider value={{ user, userData, addToCart, carts, products, handleAddToCart, handleRemoveFromCart, }}>
+    <ProductContext.Provider value={{ user, userData, addToCart }}>
       <div className='app'>
         <NavBar />
         <Routes>
@@ -105,7 +92,6 @@ function App() {
           <Route path='/product/:productId' element={<DetailsProduct />} />
           <Route path='/user/info' element={<User userData={userData} />} />
           <Route path='/cart' element={<Cart />} />
-          {/* <Route path='/cart/list' element={<CartProduct />} /> */}
         </Routes>
         {user?.email || 'No user'}
         <Footer />

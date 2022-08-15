@@ -16,15 +16,22 @@ import { editUser } from '../../lib/firebase.fetch';
 
 const Products = () => {
     const classes = useStyles();
-    const { products, carts } = useContext(ProductContext);
+    const [products, setProducts] = useState([]);
     const [cart, setCart] = useState({});
 
+    useEffect(() => {
+        getProducts();
+    }, []);
 
-    const clickedBtn = () => {
-        products?.forEach(product => {
-            console.log(product);
-        });
+    const getProducts = async () => {
+        setProducts([]);
+        const docs = getDocs(productCollectionRef).then((snapshot) => {
+            snapshot.docs.forEach((doc) => {
+                setProducts((oldState) => [...oldState, { ...doc.data(), id: doc.id }])
+            })
+        })
     }
+    
 
     return (
         <main className={classes.content}>
@@ -36,8 +43,7 @@ const Products = () => {
                         <Product product={product} id={product.id} />
                     </Grid>
                 ))}
-            </Grid>
-            <button onClick={clickedBtn}>Click</button>
+            </Grid>            
         </main>
     )
 }

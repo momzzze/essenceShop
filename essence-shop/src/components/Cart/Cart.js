@@ -1,5 +1,5 @@
 import { onSnapshot } from 'firebase/firestore'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { ProductContext } from '../../contexts/ProductContext'
 import { cartCollectionRef } from '../../lib/firestore.collections'
@@ -9,22 +9,45 @@ import { Main } from './Main';
 import { Drawer, LinearProgress, Grid, Badge, Button } from '@material-ui/core';
 import useStyles from './cartStyle.js';
 import { AddShoppingCart } from '@material-ui/icons'
-import { deleteUserCart } from '../../lib/firebase.fetch'
+import { deleteUserCart, getCartByUserId } from '../../lib/firebase.fetch'
+import { auth } from '../../lib/init-firebase'
+import CartProducts from './CartProducts'
 
-const Cart = () => {    
-    const { userData } = useContext(ProductContext);
+const Cart = () => {
+    const [cartProducts, setCartProducts] = useState([]);
+    let prodCart = [];
     
-    const click = () => {
-        { console.log(userData[0].cart) }
-    }
-    const click1 = () => {  
-            deleteUserCart(userData[0].id);        
-    }
+   
+
+    useEffect(() => {
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                getCartByUserId(user.uid).then((doc) => {
+                    setCartProducts(doc);
+                })
+            } else {
+                console.log('User is not signed in to retrieve cart');
+            }
+        })
+
+    }, [])
+
+
     return (
-        <div>
-            <button onClick={click}>+</button>
-            <button onClick={click1}>-</button>
-        </div>
+        <>
+            {console.log(cartProducts)}
+            {/* {cartProducts.length > 0 && (
+                <div>
+                    <h1>Cart: </h1>
+                    <div>
+                        <CartProducts cartProducts={cartProducts}/>
+                    </div>
+                </div>
+            )}
+            {cartProducts.length < 1 && (
+                <div>No products to show</div>
+            )} */}
+        </>
     )
 }
 

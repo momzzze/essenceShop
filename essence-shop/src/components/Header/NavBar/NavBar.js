@@ -59,41 +59,22 @@ const NavBar = () => {
         setAnchorEl(null);
         setOpenMenu(false);
         setSelectedIndex(i);
-    }
-    const menuOptions = [
-        {
-            name: 'Products',
-            link: '/product/list',
-            activeIndex: 1,
-            selectedIndex: 0
-        }
-    ]
+    }  
 
     const routes = [
         { name: 'Home', link: '/', activeIndex: 0 },
         { name: 'Products', link: '/product/list', activeIndex: 1, ariaOwns: anchorEl ? 'simple-menu' : undefined, ariaPopup: anchorEl ? 'true' : undefined, mouseOver: event => handleClick(event) },
-        { name: 'The Revolution', link: '/revolution', activeIndex: 2 },
-        { name: 'About us', link: '/about', activeIndex: 3 },
-        { name: 'Contact us', link: '/contact', activeIndex: 4 },
+        { name: 'Create Product', link: '/product/create', activeIndex: 2 },
+        { name: 'The Revolution', link: '/revolution', activeIndex: 3 },
+        { name: 'About us', link: '/about', activeIndex: 4 },
+        { name: 'Contact us', link: '/contact', activeIndex: 5 },
         //{ name: 'Sign In', link: '/login', activeIndex: 5 },
         // { name: 'Sign Up', link: '/register', activeIndex: 6 }
     ]
-    if (auth.currentUser) {
-        menuOptions.push(
-            {
-                name: 'Create Product',
-                link: '/product/create',
-                activeIndex: 1,
-                selectedIndex: 1
-            }
-        )
-        routes.splice(2, 0, {
-            name: 'Create Product', link: '/product/create', activeIndex: 1
-        })
-    }
+   
 
     useEffect(() => {
-        [...menuOptions, ...routes].forEach(route => {
+        [ ...routes].forEach(route => {
             switch (window.location.pathname) {
                 case `${route.link}`:
                     if (value !== route.activeIndex) {
@@ -107,12 +88,10 @@ const NavBar = () => {
                     break;
             }
         })
-    }, [value, menuOptions, selectedIndex, routes])
-
+    }, [value, selectedIndex, routes])
     const isClickedLogout = () => {
         logout();
         navigate('/', { replace: true });
-
         console.log('user logout');
         console.log(auth.currentUser);
     }
@@ -156,49 +135,16 @@ const NavBar = () => {
                         label='Logout'
                         onClick={isClickedLogout}
                     />}
-
-
             </Tabs>
-            {/* <Button variant='contained' color='secondary' className={classes.button}>
-                Free Estimate
-            </Button> */}
+            
 
-            <Menu
-                id='simple-menu'
-                anchorEl={anchorEl}
-                open={openMenu}
-                onClose={handleClose}
-                classes={{ paper: classes.menu }}
-                MenuListProps={{ onMouseLeave: handleClose }}
-                elevation={0}
-                style={{ zIndex: 1302 }}
-                keepMounted
-            >
-                {menuOptions.map((option, i) => (
-                    <MenuItem
-                        key={i}
-                        component={Link}
-                        to={option.link}
-                        onClick={(event) => {
-                            handleMenuItemClick(event, i);
-                            setValue(1);
-                            handleClose();
-                        }}
-                        classes={{ root: classes.menuItem }}
-                        selected={i === selectedIndex && value === 1}
-                    >
-                        {option.name}
-                    </MenuItem>
-                ))}
-            </Menu>
+           
         </React.Fragment>
     )
 
     const drawer = (
         <React.Fragment>
-            <SwipeableDrawer
-                // disableBackdropTransition={!iOS}
-                // disableDiscovery={iOS}
+            <SwipeableDrawer               
                 open={openDrawer}
                 onClose={() => setOpenDrawer(false)}
                 onOpen={() => setOpenDrawer(true)}
@@ -258,7 +204,10 @@ const NavBar = () => {
                         >
                             <ListItemText
                                 className={classes.drawerItem}
-                                disableTypography>Logout</ListItemText>
+                                disableTypography
+                            >
+                                Logout
+                            </ListItemText>
 
                         </ListItem>}
 
@@ -287,23 +236,11 @@ const NavBar = () => {
                                         <AccountCircleIcon />
                                     </Badge>
                                 </IconButton>
-                                <Dropdown>
-                                    <Dropdown.Toggle variant='#fff'>
-                                        <FaShoppingCart fontSize="20px" />
-                                        <Badge overlap='rectangular'>{2}</Badge>
-                                    </Dropdown.Toggle>
-                                    <Dropdown.Menu style={{ minWidth: 370 }}>
-                                        <span style={{ padding: 10 }}>Cart is Empty!</span>
-                                    </Dropdown.Menu>
-                                </Dropdown>
-
-                                {/* <IconButton className={classes.tab} component={Link} to='/cart' area-label="Show cart items">
+                                <IconButton className={classes.tab} component={Link} to='/cart' area-label="Show user Info">
                                     <Badge overlap='rectangular' color='error' badgeContent={2}>
                                         <FaShoppingCart fontSize="20px" />
                                     </Badge>
-                                </IconButton> */}
-
-
+                                </IconButton>
                             </>
                         }
                     </Toolbar>

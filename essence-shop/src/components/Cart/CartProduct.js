@@ -1,19 +1,19 @@
 import React from 'react'
 import './cartStyle.js'
 const CartProduct = ({
-    product,
+    cartProduct,
     onAdd
 }) => {
 
     return (
         <>
             <div>
-                <img className='small' src={product.imageUrl} alt={product.name} />
-                <h3>{product.name}</h3>
-                <div>{product.price}</div>
+                <img className='small' src={cartProduct.imageUrl} alt={cartProduct.name} />
+                <h3>{cartProduct.name}</h3>
+                <div>{cartProduct.price}</div>
             </div>
             <div>
-                <button onClick={()=> onAdd(product)}>Add To Cart</button>
+                <button onClick={() => onAdd(cartProduct)}>Add To Cart</button>
             </div>
         </>
     )

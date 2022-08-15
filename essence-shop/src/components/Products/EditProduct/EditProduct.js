@@ -7,26 +7,20 @@ import { editProduct, getProductById } from '../../../lib/firebase.fetch';
 import { db } from '../../../lib/init-firebase';
 import { useNavigate } from 'react-router-dom';
 import useStyles from './editProductStyle';
+import { ProductContext } from '../../../contexts/ProductContext';
+import { useContext } from 'react';
 
 const EditProduct = () => {
     const classes = useStyles();
     const { productId } = useParams();
     const navigate = useNavigate();
     const [prod, setprod] = useState({});
-
     const [name, setname] = useState('');
     const [imageUrl, setImageUrl] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState(0);
     const [author, setAuthor] = useState('');
-
-    // const [formValues, setFormValues] = useState({
-    //     name: '',
-    //     author: '',
-    //     price: 0,
-    //     description: '',
-    //     imageUrl: ''
-    // });
+    const {getProducts}=useContext(ProductContext);
 
     useEffect(() => {
         getProductById(productId).then((res) => {
@@ -52,7 +46,7 @@ const EditProduct = () => {
             description: description,
             imageUrl: imageUrl,
             price: price,
-        });
+        });        
         navigate(`/product/${productId}`);
     }
 
