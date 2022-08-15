@@ -3,17 +3,23 @@ import { Card, CardMedia, CardContent, CardActions, Typography, IconButton, List
 import { Stack } from '@mui/material';
 import { AddShoppingCart } from '@material-ui/icons';
 import useStyles from './productStyle';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { ProductContext } from '../../../contexts/ProductContext';
+import { auth } from '../../../lib/init-firebase';
 
 const Product = ({ product, id }) => {
+    const redirect=useNavigate();
     const { addToCart } = useContext(ProductContext);
     const prod = product
     const classes = useStyles();
 
     const handleAddToCart = () => {
-        addToCart(product);
+        if (auth.currentUser) {
+            addToCart(product);
+        }else{
+            redirect('/login');
+        }
     }
 
 
@@ -40,7 +46,7 @@ const Product = ({ product, id }) => {
                             Details
                         </Link>
                     </Button>
-                    
+
                 </Stack>
 
                 <IconButton aria-label="Add to cart" onClick={handleAddToCart}>

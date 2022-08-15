@@ -15,6 +15,7 @@ import CartProducts from './CartProducts'
 
 const Cart = () => {
     const [cartProducts, setCartProducts] = useState([]);
+    const {badgerCalculator}=useContext(ProductContext);
     let prodCart = [];
     
    
@@ -29,14 +30,13 @@ const Cart = () => {
                 console.log('User is not signed in to retrieve cart');
             }
         })
-
     }, [])
 
 
     return (
         <>
             {console.log(cartProducts)}
-            {/* {cartProducts.length > 0 && (
+            {cartProducts.length > 0 && (
                 <div>
                     <h1>Cart: </h1>
                     <div>
@@ -46,7 +46,7 @@ const Cart = () => {
             )}
             {cartProducts.length < 1 && (
                 <div>No products to show</div>
-            )} */}
+            )}
         </>
     )
 }

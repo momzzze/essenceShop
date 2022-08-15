@@ -29,11 +29,8 @@ const DetailsProduct = () => {
       setprod(res);
     });
   }, [setprod]);
-
-
   const product = prod.data;
   const editUrl = `/product/edit/${productId}`;
-
   const deleteProducts = () => {
     deleteProduct(productId);
     redirect('/product/list');

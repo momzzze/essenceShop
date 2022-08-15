@@ -23,18 +23,27 @@ import { UserContext } from './contexts/UserContext';
 import Cart from './components/Cart/Cart';
 import CartProduct from './components/Cart/CartProduct';
 import Product from './components/Products/Product/Product';
+import About from './components/About/About';
+import Contact from './components/Contact/Contact';
 
 function App() {
   const [error, setError] = useState("");
-  const [user, setUser] = useState({});  
+  const [user, setUser] = useState({});
   const [badger, setBadger] = useState(0);
 
   let userData = [];
- 
+
+  useEffect(() => {
+    badgerCalculator();
+  }, [])
 
   const badgerCalculator = async () => {
-    const cartRef = collection(db, `cart ${auth.currentUser.uid}`);
-    
+    const cartRef = collection(db, `cart ${auth.currentUser?.uid}`);
+    const querySnapshot = await getDocs(cartRef);
+    setBadger(0);
+    querySnapshot?.forEach((doc) => {
+      setBadger(old => old += (doc.data().qty))
+    })
   }
 
 
@@ -64,7 +73,7 @@ function App() {
     }
   }
 
-  
+
 
   onAuthStateChanged(auth, (currentUser) => {
     setUser(currentUser)
@@ -79,9 +88,10 @@ function App() {
 
   return (
 
-    <ProductContext.Provider value={{ user, userData, addToCart }}>
+    <ProductContext.Provider value={{ user, userData, addToCart, badger, badgerCalculator }}>
       <div className='app'>
         <NavBar />
+        {console.log(badger)}
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
@@ -92,6 +102,8 @@ function App() {
           <Route path='/product/:productId' element={<DetailsProduct />} />
           <Route path='/user/info' element={<User userData={userData} />} />
           <Route path='/cart' element={<Cart />} />
+          <Route path='/about' element={<About />} />
+          <Route path='/contact' element={<Contact />} />
         </Routes>
         {user?.email || 'No user'}
         <Footer />

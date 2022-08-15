@@ -7,7 +7,6 @@ export const getProducts = async () => {
     const data = await getDocs(productCollectionRef);
     return data;
 }
-
 export const getProductById = async (productId) => {
     let result;
     const docRef = doc(db, 'products', productId);
@@ -23,7 +22,6 @@ export const deleteProduct = async (id) => {
     const docRef = doc(db, 'products', id);
     deleteDoc(docRef).then(() => console.log('Product deleted')).catch(error => console.log(error.message))
 }
-
 export const createProduct = async (data) => {
     try {
         await addDoc(productCollectionRef, data).then(res => { console.log(res) })
@@ -43,7 +41,6 @@ export const editProduct = async (id, data) => {
         return err.slice(1, err.length - 2);
     }
 }
-
 // ---------------------Users---------------------------
 export const getUser = async (id) => {
     let result;
@@ -66,7 +63,6 @@ export const deleteUserCart = async (id) => {
         "cart": deleteField()
     });
 }
-
 //-------------------------Cart--------------------------
 //function to create or set/modify existing cart
 export const createCart = async (uid, data) => {
@@ -83,7 +79,6 @@ export const editCart = async (uid, docId, data, add, remove) => {
     await setDoc(snapshot, data, { merge: true });
     console.log('Document get updated');
 }
-
 export const getCartByUserId = async (uid) => {
     let result = [];
     const cart = collection(db, `cart ${uid}`);
@@ -94,9 +89,6 @@ export const getCartByUserId = async (uid) => {
     })
     return result;
 }
-
-
-
 export const deleteCart = async (id) => {
     const docRef = doc(db, 'cart', id);
     deleteDoc(docRef).then(() => console.log('Cart deleted')).catch(error => console.log(error.message))

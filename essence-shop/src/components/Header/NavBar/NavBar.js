@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
     AppBar, Toolbar, SwipeableDrawer, IconButton, List, ListItem, ListItemText,
     useScrollTrigger, Menu, MenuItem, makeStyles,
@@ -16,6 +16,7 @@ import { auth } from '../../../lib/init-firebase';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { Dropdown, } from 'react-bootstrap';
 import Cart from '../../Cart/Cart';
+import { ProductContext } from '../../../contexts/ProductContext';
 
 function ElevationScroll(props) {
     const { children } = props;
@@ -35,14 +36,13 @@ const NavBar = () => {
     const classes = useStyles();
     const navigate = useNavigate();
     const theme = useTheme();
-
     const matches = useMediaQuery(theme.breakpoints.down("md"));
     const [openDrawer, setOpenDrawer] = useState(false);
     const [value, setValue] = useState(0);
     const [anchorEl, setAnchorEl] = useState(null);
     const [openMenu, setOpenMenu] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(0);
-
+    const { badger } = useContext(ProductContext);
 
     const navLinkChangeHandler = (e, newValue) => {
         setValue(newValue);
@@ -59,22 +59,15 @@ const NavBar = () => {
         setAnchorEl(null);
         setOpenMenu(false);
         setSelectedIndex(i);
-    }  
-
+    }
     const routes = [
         { name: 'Home', link: '/', activeIndex: 0 },
         { name: 'Products', link: '/product/list', activeIndex: 1, ariaOwns: anchorEl ? 'simple-menu' : undefined, ariaPopup: anchorEl ? 'true' : undefined, mouseOver: event => handleClick(event) },
-        { name: 'Create Product', link: '/product/create', activeIndex: 2 },
-        { name: 'The Revolution', link: '/revolution', activeIndex: 3 },
         { name: 'About us', link: '/about', activeIndex: 4 },
-        { name: 'Contact us', link: '/contact', activeIndex: 5 },
-        //{ name: 'Sign In', link: '/login', activeIndex: 5 },
-        // { name: 'Sign Up', link: '/register', activeIndex: 6 }
+        { name: 'Contact us', link: '/contact', activeIndex: 5 }
     ]
-   
-
     useEffect(() => {
-        [ ...routes].forEach(route => {
+        [...routes].forEach(route => {
             switch (window.location.pathname) {
                 case `${route.link}`:
                     if (value !== route.activeIndex) {
@@ -98,21 +91,39 @@ const NavBar = () => {
     const tabs = (
         <React.Fragment>
             <Tabs value={value} onChange={navLinkChangeHandler} className={classes.container} indicatorColor="secondary">
-
-                {routes.map((route, index) => (
+                {!auth.currentUser &&
                     <Tab
-                        key={`${route}${index}`}
                         className={classes.tab}
                         component={Link}
-                        to={route.link}
-                        label={route.name}
-                        aria-owns={route.ariaOwns}
-                        aria-haspopup={route.ariaPopup}
-                        onMouseOver={route.mouseOver}
+                        to='/'
+                        label='Home'                       
                     />
-                ))}
+                }
                 {!auth.currentUser &&
-
+                    <Tab
+                        className={classes.tab}
+                        component={Link}
+                        to='/product/list'
+                        label='Products'
+                    />
+                }
+                 {!auth.currentUser &&
+                    <Tab
+                        className={classes.tab}
+                        component={Link}
+                        to='/about'
+                        label='About us'
+                    />
+                }
+                 {!auth.currentUser &&
+                    <Tab
+                        className={classes.tab}
+                        component={Link}
+                        to='/contact'
+                        label='Contact us'
+                    />
+                }
+                {!auth.currentUser &&
                     <Tab
                         className={classes.tab}
                         component={Link}
@@ -131,20 +142,61 @@ const NavBar = () => {
                     <Tab
                         className={classes.tab}
                         component={Link}
+                        to='/'
+                        label='Home'
+                    />
+                }
+                {auth.currentUser &&
+                    <Tab
+                        className={classes.tab}
+                        component={Link}
+                        to='/product/list'
+                        label='Products'
+                    />
+                }
+                {auth.currentUser &&
+                    <Tab
+                        className={classes.tab}
+                        component={Link}
+                        to='/product/create'
+                        label='Create Product'
+                    />
+                }
+                {auth.currentUser &&
+                    <Tab
+                        className={classes.tab}
+                        component={Link}
+                        to='/contact'
+                        label='Contact us'
+                    />
+                }
+                {auth.currentUser &&
+                    <Tab
+                        className={classes.tab}
+                        component={Link}
+                        to='/about'
+                        label='About us'
+                    />
+                }
+                {auth.currentUser &&
+                    <Tab
+                        className={classes.tab}
+                        component={Link}
                         to='/logout'
                         label='Logout'
                         onClick={isClickedLogout}
-                    />}
+                    />
+                }
             </Tabs>
-            
 
-           
+
+
         </React.Fragment>
     )
 
     const drawer = (
         <React.Fragment>
-            <SwipeableDrawer               
+            <SwipeableDrawer
                 open={openDrawer}
                 onClose={() => setOpenDrawer(false)}
                 onOpen={() => setOpenDrawer(true)}
@@ -159,8 +211,7 @@ const NavBar = () => {
                             divider
                             button
                             component={Link}
-                            to={route.link}
-                            selected={value === route.activeIndex}
+                            to={route.link}                            
                             classes={{ selected: classes.drawerItemSelected }}
                             onClick={() => { setOpenDrawer(false); setValue(route.activeIndex) }}
                         >
@@ -175,7 +226,7 @@ const NavBar = () => {
                             component={Link}
                             to='/login'
                             label='Sign In'
-                            onClick={() => { setOpenDrawer(false); setValue(5) }}
+                            onClick={() => { setOpenDrawer(false); }}
                         >
                             <ListItemText
                                 className={classes.drawerItem}
@@ -187,7 +238,7 @@ const NavBar = () => {
                             component={Link}
                             to='/register'
                             label='Sign Up'
-                            onClick={() => { setOpenDrawer(false); setValue(6) }}
+                            onClick={() => { setOpenDrawer(false); }}
                         >
                             <ListItemText
                                 className={classes.drawerItem}
@@ -195,21 +246,38 @@ const NavBar = () => {
 
                         </ListItem>}
                     {auth.currentUser &&
-                        <ListItem
-                            classes={{ selected: classes.drawerItemSelected }}
-                            component={Link}
-                            to='/logout'
-                            label='Logout'
-                            onClick={() => { setOpenDrawer(false); setValue(7) }}
-                        >
-                            <ListItemText
-                                className={classes.drawerItem}
-                                disableTypography
+                        <>
+                            <ListItem
+                                classes={{ selected: classes.drawerItemSelected }}
+                                component={Link}
+                                to='/product/create'
+                                label='Create Product'
+                                onClick={() => { setOpenDrawer(false); setValue(7) }}
                             >
-                                Logout
-                            </ListItemText>
+                                <ListItemText
+                                    className={classes.drawerItem}
+                                    disableTypography
+                                >
+                                    Create Product
+                                </ListItemText>
 
-                        </ListItem>}
+                            </ListItem>
+
+                            <ListItem
+                                classes={{ selected: classes.drawerItemSelected }}
+                                component={Link}
+                                to='/logout'
+                                label='Logout'
+                                onClick={() => { setOpenDrawer(false); }}
+                            >
+                                <ListItemText
+                                    className={classes.drawerItem}
+                                    disableTypography
+                                >
+                                    Logout
+                                </ListItemText>
+                            </ListItem></>
+                    }
 
                 </List>
 
@@ -219,7 +287,6 @@ const NavBar = () => {
             </IconButton>
         </React.Fragment>
     )
-
     return (
         <React.Fragment>
             <ElevationScroll>
@@ -237,7 +304,7 @@ const NavBar = () => {
                                     </Badge>
                                 </IconButton>
                                 <IconButton className={classes.tab} component={Link} to='/cart' area-label="Show user Info">
-                                    <Badge overlap='rectangular' color='error' badgeContent={2}>
+                                    <Badge overlap='rectangular' color='error' badgeContent={badger}>
                                         <FaShoppingCart fontSize="20px" />
                                     </Badge>
                                 </IconButton>
@@ -252,3 +319,4 @@ const NavBar = () => {
 }
 
 export default NavBar
+
