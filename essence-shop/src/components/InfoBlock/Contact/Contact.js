@@ -82,21 +82,13 @@ export default function Contact(props) {
     const theme = useTheme();
     const matchesMD = useMediaQuery(theme.breakpoints.down("md"));
     const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
-    const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
-
     const [name, setName] = useState("");
-
     const [email, setEmail] = useState("");
     const [emailHelper, setEmailHelper] = useState("");
-
     const [phone, setPhone] = useState("");
     const [phoneHelper, setPhoneHelper] = useState("");
-
-    const [message, setMessage] = useState("");
-
-    const [open, setOpen] = useState(false);
+    const [message, setMessage] = useState("");    
     const [loading, setLoading] = useState(false);
-
     const [alert, setAlert] = useState({ open: false, color: "" });
     const [alertMessage, setAlertMesssage] = useState("");
 
@@ -149,8 +141,7 @@ export default function Contact(props) {
                 }
             )
             .then(res => {
-                setLoading(false);
-                setOpen(false);
+                setLoading(false);                
                 setName("");
                 setEmail("");
                 setPhone("");
@@ -305,8 +296,7 @@ export default function Contact(props) {
                                 }
                                 variant="contained"
                                 className={classes.sendButton}
-                                onClick={() => setOpen(true)}
-                            >
+                                                         >
                                 {buttonContents}
                             </Button>
                         </Grid>
