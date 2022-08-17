@@ -60,7 +60,7 @@ const NavBar = () => {
     const routes = [
         { name: 'Home', link: '/', activeIndex: 0 },
         { name: 'Products', link: '/product/list', activeIndex: 1, ariaOwns: anchorEl ? 'simple-menu' : undefined, ariaPopup: anchorEl ? 'true' : undefined, mouseOver: event => handleClick(event) },
-        { name: 'About us', link: '/about', activeIndex: 4 },
+        { name: 'About us', link: '/info', activeIndex: 3 },
     ]
     useEffect(() => {
         [...routes].forEach(route => {
@@ -107,7 +107,7 @@ const NavBar = () => {
                     <Tab
                         className={classes.tab}
                         component={Link}
-                        to='/about'
+                        to='/info'
                         label='About us'
                     />
                 }
@@ -156,7 +156,7 @@ const NavBar = () => {
                     <Tab
                         className={classes.tab}
                         component={Link}
-                        to='/about'
+                        to='/info'
                         label='About us'
                     />
                 }

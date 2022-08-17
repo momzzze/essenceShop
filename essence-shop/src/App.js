@@ -21,8 +21,10 @@ import { getDocs, onSnapshot, collection, query, where, getDoc } from 'firebase/
 import { userCollectionRef } from './lib/firestore.collections';
 
 import Cart from './components/Cart/Cart';
-import About from './components/About/About';
 import { async } from '@firebase/util';
+import InfoBlock from './components/InfoBlock/InfoBlock';
+import { About } from './components/InfoBlock/About/About';
+import Contact from './components/InfoBlock/Contact/Contact';
 
 function App() {
   const [error, setError] = useState("");
@@ -47,11 +49,11 @@ function App() {
     querySnapshot.forEach(el => {
       setUserData(el.data())
     })
-    if (!user){
+    if (!user) {
       setUserData({})
     }
   }
- 
+
   const badgerCalculator = async () => {
     const cartRef = collection(db, `cart ${auth.currentUser?.uid}`);
     const querySnapshot = await getDocs(cartRef);
@@ -113,9 +115,10 @@ function App() {
           <Route path='/product/:productId' element={<DetailsProduct />} />
           <Route path='/user/info' element={<User userData={userData} />} />
           <Route path='/cart' element={<Cart />} />
-          <Route path='/about' element={<About />} />
+          <Route path='/info' element={<InfoBlock />} />
+          <Route path='/info/about' element={<About />} />          
+          <Route path='/info/contact' element={<Contact />} />
         </Routes>
-        {user?.email || 'No user'}
         <Footer />
       </div>
     </ProductContext.Provider>

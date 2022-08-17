@@ -7,7 +7,7 @@ export const Home = () => {
     return (
         <>
             <Box className={classes.hero}>
-                <Box>HomePage</Box>
+                <Box>Essence</Box>
             </Box>
         </>
     )
