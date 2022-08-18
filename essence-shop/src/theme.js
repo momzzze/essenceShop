@@ -62,6 +62,29 @@ export const theme = createTheme({
             color: "white",
         }
     },
+    overrides: {
+        MuiInputLabel: {
+            root: {
+                color: Colors.warning,
+                fontSize: '1rem'
+            }
+        },
+        MuiInput: {
+            root: {
+                color: Colors.dim_grey,
+                fontWeight: 300
+            },
+            underline: {
+                "&:before": {
+                    borderBottom: `2px solid ${Colors.secondary}`
+                },
+                "&:hover:not($disabled):not($focused):not($error):before": {
+                    borderBottom: `2px solid ${Colors.secondary}`
+                }
+            }
+
+        }
+    },
     background: {
         default: "#ffffff"
     },
