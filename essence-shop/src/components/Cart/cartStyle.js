@@ -7,5 +7,11 @@ export default makeStyles((theme) => ({
         zIndex: 100,
         right: "20px",
         top: '20px'
-    }
+    },
+    paperStyle: {
+        margin: "20px auto",
+        padding: "15px",
+        height: 400,
+        width: 500,
+    },
 }))

@@ -15,10 +15,10 @@ import CartProducts from './CartProducts'
 
 const Cart = () => {
     const [cartProducts, setCartProducts] = useState([]);
-    const {badgerCalculator}=useContext(ProductContext);
+    const { badgerCalculator } = useContext(ProductContext);
     let prodCart = [];
-    
-   
+
+
 
     useEffect(() => {
         auth.onAuthStateChanged(user => {
@@ -38,9 +38,8 @@ const Cart = () => {
             {console.log(cartProducts)}
             {cartProducts.length > 0 && (
                 <div>
-                    <h1>Cart: </h1>
                     <div>
-                        <CartProducts cartProducts={cartProducts}/>
+                        <CartProducts cartProducts={cartProducts} />
                     </div>
                 </div>
             )}
