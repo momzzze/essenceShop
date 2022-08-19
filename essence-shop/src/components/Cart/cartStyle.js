@@ -14,4 +14,14 @@ export default makeStyles((theme) => ({
         height: 400,
         width: 500,
     },
+    buttonCheck: {
+        color: '#362626',
+        backgroundColor: theme.palette.primary.main,
+        justifyContent: 'center',
+        '&:hover': {
+            backgroundColor: '#362626',
+            color: theme.palette.primary.main
+        },
+        margin: '20px 0'
+    }
 }))

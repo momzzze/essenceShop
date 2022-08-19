@@ -20,36 +20,27 @@ export const register = async ({
     name
 }) => {
     let user = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword)
-    
+    const userImg = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3UNzW-04v3tAQAc7FXLjc4xtNfKSXi3A0DQ&usqp=CAU';
+    const coverPic = 'https://cdn-images-1.medium.com/max/800/0*qZS6sL0kKw5DVXPn.jpg';
     try {
         const docRef = doc(db, 'users', user.user.uid)
         console.log(user.uid);
         await setDoc(docRef, {
             name: name,
-            email: registerEmail
+            email: registerEmail,
+            userImg: userImg,
+            cover: coverPic,
+            completedOrders: {
+                count: 0,
+                orderData: {}
+            }
         })
     } catch (error) {
         const err = error.message.split('Firebase: Error ')[1];
         return err.slice(1, err.length - 2);
     }
 }
-
-
-
-
-
-// userCollectionRef.doc(user.uid).set({
-//     name: name,
-//     email: registerEmail,
-// })
-// }).catch((error) => {
-//     return error.message
-// })
-
-
-
-// };
 export const logout = async () => {
     await signOut(auth);
-    
+
 }

@@ -74,10 +74,15 @@ export const createCart = async (uid, data) => {
         console.log(`Error: ${error}`);
     }
 }
-export const editCart = async (uid, docId, data, add, remove) => {
+export const editCart = async (uid, docId, data) => {
     const snapshot = doc(db, `cart ${uid}/${docId}`);
     await setDoc(snapshot, data, { merge: true });
     console.log('Document get updated');
+}
+export const deleteItemFromCart = async (uid, docId) => {
+    const snapshot = doc(db, `cart ${uid}/${docId}`);
+    deleteDoc(snapshot);
+    console.log('Item was deleted');
 }
 export const getCartByUserId = async (uid) => {
     let result = [];

@@ -26,8 +26,7 @@ import InfoBlock from './components/InfoBlock/InfoBlock';
 import { About } from './components/InfoBlock/About/About';
 import Contact from './components/InfoBlock/Contact/Contact';
 
-function App() {
-  const [error, setError] = useState("");
+function App() {  
   const [user, setUser] = useState({});
   const [badger, setBadger] = useState(0);
   const [userData, setUserData] = useState({});
@@ -96,15 +95,11 @@ function App() {
     setUser(currentUser);
   })
 
-
-
-
   return (
 
     <ProductContext.Provider value={{ user, userData, addToCart, badger, badgerCalculator }}>
       <div className='app'>
         <NavBar />
-        {console.log(badger)}
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
@@ -116,7 +111,7 @@ function App() {
           <Route path='/user/info' element={<User userData={userData} />} />
           <Route path='/cart' element={<Cart />} />
           <Route path='/info' element={<InfoBlock />} />
-          <Route path='/info/about' element={<About />} />          
+          <Route path='/info/about' element={<About />} />
           <Route path='/info/contact' element={<Contact />} />
         </Routes>
         <Footer />

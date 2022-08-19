@@ -9,7 +9,7 @@ import { ProductContext } from '../../../contexts/ProductContext';
 import { auth } from '../../../lib/init-firebase';
 
 const Product = ({ product, id }) => {
-    const redirect=useNavigate();
+    const redirect = useNavigate();
     const { addToCart } = useContext(ProductContext);
     const prod = product
     const classes = useStyles();
@@ -17,7 +17,7 @@ const Product = ({ product, id }) => {
     const handleAddToCart = () => {
         if (auth.currentUser) {
             addToCart(product);
-        }else{
+        } else {
             redirect('/login');
         }
     }
@@ -48,11 +48,11 @@ const Product = ({ product, id }) => {
                     </Button>
 
                 </Stack>
-
-                <IconButton aria-label="Add to cart" onClick={handleAddToCart}>
-                    <AddShoppingCart />
-                </IconButton>
-
+                {(prod.inStock > 0) &&
+                    <IconButton aria-label="Add to cart" onClick={handleAddToCart}>
+                        <AddShoppingCart />
+                    </IconButton>
+                }
             </CardActions>
         </Card >
     )
