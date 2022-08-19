@@ -251,7 +251,7 @@ const NavBar = () => {
                                 label='Logout'
                                 onClick={() => {
                                     isClickedLogout();
-                                    // setOpenDrawer(false);                                    
+                                    setOpenDrawer(false);                                    
                                 }}
                             >
                                 <ListItemText

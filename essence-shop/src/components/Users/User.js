@@ -1,8 +1,10 @@
 import React from 'react'
 
-const User = () => {
+const User = ({ userData }) => {
     return (
-        <div>User</div>
+        <div>
+           {console.log(userData)}
+        </div>
     )
 }
 
