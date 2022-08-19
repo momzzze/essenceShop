@@ -1,4 +1,4 @@
-import { onSnapshot } from 'firebase/firestore'
+import { collection, doc, getDoc, getDocs, onSnapshot, query, where } from 'firebase/firestore'
 import React, { useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { ProductContext } from '../../contexts/ProductContext'
@@ -9,17 +9,21 @@ import { Main } from './Main';
 import { Drawer, LinearProgress, Grid, Badge, Button } from '@material-ui/core';
 import useStyles from './cartStyle.js';
 import { AddShoppingCart } from '@material-ui/icons'
-import { deleteItemFromCart, deleteUserCart, editCart, getCartByUserId } from '../../lib/firebase.fetch'
-import { auth } from '../../lib/init-firebase'
-import CartProducts from './CartProducts'
+import { deleteItemFromCart, deleteUserCart, editCart, editProduct, getCartByUserId } from '../../lib/firebase.fetch'
+import { auth, db } from '../../lib/init-firebase'
+import CartProducts from './CartProducts';
+import { useNavigate } from 'react-router-dom';
 
-const Cart = () => {
+const Cart = ({ updateUserData }) => {
+    const redirect=useNavigate();
     const [cartProducts, setCartProducts] = useState([]);
     const { badgerCalculator } = useContext(ProductContext);
     const [product, setProduct] = useState({});
     let Product;
     const [totalAmount, setTotalAmount] = useState(0);
     const [productPriceAmount, setProductPriceAmount] = useState(0);
+    const [qtyUpdate, setQtyUpdate] = useState('');
+    let qtyItem;
     useEffect(() => {
         setTotalAmount(0)
         setProductPriceAmount(0);
@@ -65,6 +69,7 @@ const Cart = () => {
     }
     const removeProduct = (cartProduct) => {
         deleteItemFromCart(auth.currentUser.uid, cartProduct.productId);
+        badgerCalculator();
         auth.onAuthStateChanged(user => {
             if (user) {
                 getCartByUserId(user.uid).then((doc) => {
@@ -95,6 +100,34 @@ const Cart = () => {
             })
         }
     }
+    const checkoutLogic = async (cartProducts) => {
+        let order = cartProducts;
+        let userFinishedOrder;
+        const userRef = doc(db, 'users', auth.currentUser.uid);
+        await getDoc(userRef).then((doc) => {
+            userFinishedOrder = doc.data();
+        })
+        userFinishedOrder.completedOrders = { order };
+        updateUserData(userFinishedOrder)
+        await cartProducts.forEach(element => {
+            const prodRef = collection(db, `products`);
+            const snapshot = getDocs(prodRef).then((doc) => {
+                doc.forEach((el) => {
+                    if (el.id == element.id) {
+                        setQtyUpdate(el.id);
+                        qtyItem = el.data();
+                        qtyItem['inStock'] = qtyItem.inStock - element.qty;
+                        editProduct(el.id, qtyItem);
+                        qtyItem = {}
+                        setQtyUpdate('');
+
+                    }
+                })
+            })
+        })
+        await deleteUserCart(auth.currentUser.uid, cartProducts);
+        redirect('/');
+    }
 
     return (
         <>
@@ -109,6 +142,7 @@ const Cart = () => {
                             totalAmount={totalAmount}
                             productPriceAmount={productPriceAmount}
                             removeProduct={removeProduct}
+                            checkoutLogic={checkoutLogic}
                         />
                     </div>
                 </div>

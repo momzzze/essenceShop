@@ -34,14 +34,14 @@ function App() {
 
   useEffect(() => {
     badgerCalculator();
-  }, [badger])
+  }, [badger,userData])
 
   useEffect(() => {
     getUserData();
     badgerCalculator();
   }, [user])
 
-  const getUserData = async () => {
+  const getUserData = async () => {    
     const userRef = collection(db, `users`);
     const q = query(userRef, where("email", "==", `${auth.currentUser?.email}`));
     const querySnapshot = await getDocs(q);
@@ -51,6 +51,12 @@ function App() {
     if (!user) {
       setUserData({})
     }
+  }
+  const updateUserData=(data)=>{    
+    let currentUserData=userData
+    currentUserData['completedOrders'].push(data['completedOrders'])
+    getUserData()
+    fbFetch.editUser(auth.currentUser.uid,currentUserData)
   }
 
   const badgerCalculator = async () => {
@@ -109,7 +115,7 @@ function App() {
           <Route path='/product/edit/:productId' element={<EditProduct />} />
           <Route path='/product/:productId' element={<DetailsProduct />} />
           <Route path='/user/info' element={<User userData={userData} />} />
-          <Route path='/cart' element={<Cart />} />
+          <Route path='/cart' element={<Cart updateUserData={updateUserData} />} />
           <Route path='/info' element={<InfoBlock />} />
           <Route path='/info/about' element={<About />} />
           <Route path='/info/contact' element={<Contact />} />

@@ -54,14 +54,16 @@ export const getUser = async (id) => {
     return result
 }
 export const editUser = async (id, data) => {
+    // const snapshot = doc(db, `users`);
     const userDoc = doc(db, 'users', id);
-    await updateDoc(userDoc, data)
+    console.log(data);
+    await setDoc(userDoc, data, { merge: true })
 }
-export const deleteUserCart = async (id) => {
-    const userDoc = doc(db, `users/${id}`);
-    await updateDoc(userDoc, {
-        "cart": deleteField()
-    });
+export const deleteUserCart = async (id,data) => {    
+   data.forEach(el => {
+    deleteItemFromCart(id,el.productId);
+   });
+   console.log('Cart is empty');
 }
 //-------------------------Cart--------------------------
 //function to create or set/modify existing cart

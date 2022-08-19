@@ -30,10 +30,7 @@ export const register = async ({
             email: registerEmail,
             userImg: userImg,
             cover: coverPic,
-            completedOrders: {
-                count: 0,
-                orderData: {}
-            }
+            completedOrders: []
         })
     } catch (error) {
         const err = error.message.split('Firebase: Error ')[1];

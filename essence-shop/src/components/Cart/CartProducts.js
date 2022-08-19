@@ -10,10 +10,14 @@ const CartProducts = ({
     cartProductDecrease,
     productPriceAmount,
     totalAmount,
-    removeProduct
+    removeProduct,
+    checkoutLogic
 }) => {
     const classes = useStyles();
     
+    const checkoutLogicHandler=()=>{
+        checkoutLogic(cartProducts)
+    }
 
     return (
         <div>
@@ -53,7 +57,7 @@ const CartProducts = ({
                                             <p>Total Price</p>
                                             <p>$<span>{totalAmount}</span></p>
                                         </div>
-                                        <Button className={classes.buttonCheck}>Checkout</Button>
+                                        <Button onClick={checkoutLogicHandler} className={classes.buttonCheck}>Checkout</Button>
                                     </div>
                                 </div>
                             </div>
