@@ -1,4 +1,7 @@
 # essenceShop
+ ## Deploy
+ 
+ web app is deployed at: https://essence2-76549.web.app/
  
  Test acc:
  username: nikola@ninov.org, spas12@abv.bg stoil@abv.bg
