@@ -39,7 +39,7 @@ const NavBar = () => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [openMenu, setOpenMenu] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(0);
-    const { badger,setUser } = useContext(ProductContext);
+    const { badger, setUser } = useContext(ProductContext);
 
     const navLinkChangeHandler = (e, newValue) => {
         setValue(newValue);
@@ -79,7 +79,7 @@ const NavBar = () => {
         })
     }, [value, selectedIndex, routes])
     const isClickedLogout = () => {
-        logout();        
+        logout();
         navigate('/', { replace: true });
         console.log('user logout');
         console.log(auth.currentUser);
@@ -92,7 +92,7 @@ const NavBar = () => {
                         className={classes.tab}
                         component={Link}
                         to='/'
-                        label='Home'                       
+                        label='Home'
                     />
                 }
                 {!auth.currentUser &&
@@ -103,7 +103,7 @@ const NavBar = () => {
                         label='Products'
                     />
                 }
-                 {!auth.currentUser &&
+                {!auth.currentUser &&
                     <Tab
                         className={classes.tab}
                         component={Link}
@@ -111,7 +111,7 @@ const NavBar = () => {
                         label='About us'
                     />
                 }
-                 
+
                 {!auth.currentUser &&
                     <Tab
                         className={classes.tab}
@@ -151,7 +151,7 @@ const NavBar = () => {
                         label='Create Product'
                     />
                 }
-               
+
                 {auth.currentUser &&
                     <Tab
                         className={classes.tab}
@@ -193,7 +193,7 @@ const NavBar = () => {
                             divider
                             button
                             component={Link}
-                            to={route.link}                            
+                            to={route.link}
                             classes={{ selected: classes.drawerItemSelected }}
                             onClick={() => { setOpenDrawer(false); setValue(route.activeIndex) }}
                         >
@@ -250,7 +250,10 @@ const NavBar = () => {
                                 component={Link}
                                 to='/logout'
                                 label='Logout'
-                                onClick={() => { setOpenDrawer(false); }}
+                                onClick={() => {
+                                    isClickedLogout()
+                                    setOpenDrawer(false);
+                                }}
                             >
                                 <ListItemText
                                     className={classes.drawerItem}
