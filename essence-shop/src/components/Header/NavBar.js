@@ -79,8 +79,8 @@ const NavBar = () => {
         })
     }, [value, selectedIndex, routes])
     const isClickedLogout = () => {
-        logout();
         navigate('/', { replace: true });
+        logout();        
         console.log('user logout');
         console.log(auth.currentUser);
     }
@@ -247,12 +247,11 @@ const NavBar = () => {
 
                             <ListItem
                                 classes={{ selected: classes.drawerItemSelected }}
-                                component={Link}
-                                to='/logout'
+                                component={Button}                                
                                 label='Logout'
                                 onClick={() => {
-                                    isClickedLogout()
-                                    setOpenDrawer(false);
+                                    isClickedLogout();
+                                    // setOpenDrawer(false);                                    
                                 }}
                             >
                                 <ListItemText
