@@ -1,13 +1,10 @@
-import { Avatar, Button, FormControl, FormHelperText, Grid, Input, InputLabel, Paper, TextField } from '@material-ui/core';
+import { Button, Grid, Paper, TextField } from '@material-ui/core';
 import React, { useState } from 'react'
 import useStyles from './createProductStyle';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
-import { addDoc, serverTimestamp } from 'firebase/firestore';
-import { productCollectionRef } from '../../../lib/firestore.collections';
+import { serverTimestamp } from 'firebase/firestore';
 import { auth } from '../../../lib/init-firebase';
 import { useNavigate } from 'react-router-dom';
 import { createProduct } from '../../../lib/firebase.fetch';
-import { faker } from '@faker-js/faker';
 
 
 
@@ -22,10 +19,80 @@ const CreateProduct = () => {
     const [error, setError] = useState('');
     const classes = useStyles();
     const navigate = useNavigate();
-    const ratings = faker.ratings;
-    const fastDel = faker.random;
-    const inStock = faker.random;
 
+    const [nameHelper, setNameHelper] = useState('')
+    const [authorHelper, setAuthorHelper] = useState('')
+    const [priceHelper, setPriceHelper] = useState('')
+    const [descriptionHelper, setDescriptionHelper] = useState('')
+    const [imageUrlHelper, setImageUrlHelper] = useState('')
+
+    const onChange = event => {
+        let valid;
+        switch (event.target.id) {
+            case "name":
+                handleInputChange(event);
+                valid = /^(?!\s*$).+/.test(
+                    event.target.value
+                );
+
+                if (!valid) {
+                    setNameHelper("Name is required");
+                } else {
+                    setNameHelper("");
+                }
+                break;
+            case "description":
+                handleInputChange(event);
+                valid = /^(?!\s*$).+/.test(
+                    event.target.value
+                );
+
+                if (!valid) {
+                    setDescriptionHelper("Description is required");
+                } else {
+                    setDescriptionHelper("");
+                }
+                break;
+            case "author":
+                handleInputChange(event);
+                valid = /^(?!\s*$).+/.test(
+                    event.target.value
+                );
+
+                if (!valid) {
+                    setAuthorHelper("Author is required");
+                } else {
+                    setAuthorHelper("");
+                }
+                break;
+            case "price":
+                handleInputChange(event);
+                valid = /[1-9]+/.test(
+                    event.target.value
+                );
+                if (!valid) {
+                    setPriceHelper("Price should be fixed");
+                } else {
+                    setPriceHelper("");
+                }
+                break;
+            case "imageUrl":
+                handleInputChange(event);
+                valid = /[^\s]+/.test(
+                    event.target.value
+                );
+
+                if (!valid) {
+                    setImageUrlHelper("Image should be a valid url");
+                } else {
+                    setImageUrlHelper("");
+                }
+                break;
+
+            default:
+                break;
+        }
+    }
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormValues({
@@ -59,83 +126,107 @@ const CreateProduct = () => {
     }
 
     return (
-        <form onSubmit={createProductHandler}>
-            <Paper elevation={10} className={classes.paperStyle}>
-                <Grid container alignItems="center" justifyContent="center" direction="column" spacing={2}>
+        <>
+            {
+                auth.currentUser &&
+                <form onSubmit={createProductHandler}>
+                    <Paper elevation={10} className={classes.paperStyle}>
+                        <Grid container alignItems="center" justifyContent="center" direction="column" spacing={2}>
 
-                    <h2>Create Product</h2>
+                            <h2>Create Product</h2>
 
-                    <Grid item>
-                        <TextField
-                            id="name"
-                            name="name"
-                            label="Name"
-                            type="text"
-                            value={formValues.name}
-                            onChange={handleInputChange}
-                        />
-                    </Grid>
-                    <Grid item>
-                        <TextField
-                            id="author"
-                            name="author"
-                            label="Author"
-                            type="text"
-                            value={formValues.author}
-                            onChange={handleInputChange}
-                        />
-                    </Grid>
-                    <Grid item>
-                        <TextField
-                            id="imageUrl"
-                            name="imageUrl"
-                            label="ImageUrl"
-                            type="text"
-                            value={formValues.imageUrl}
-                            onChange={handleInputChange}
-                        />
-                    </Grid>
-                    <Grid item>
-                        <TextField
-                            id="price"
-                            name="price"
-                            label="Price"
-                            type="number"
-                            value={formValues.price}
-                            onChange={handleInputChange}
-                        />
-                    </Grid>
-                    <Grid item>
-                        <TextField
-                            id="description"
-                            name='description'
-                            label="Description"
-                            multiline
-                            minRows={4}
-                            value={formValues.description}
-                            onChange={handleInputChange}
-                        />
-                    </Grid>
-                    <Button
-                        className={classes.button}
-                        variant='contained'
-                        type='submit'
-                        color='primary'
-                        fullWidth>
-                        Create
-                    </Button>
-                    <Button
-                        className={classes.button}
-                        variant='contained'
-                        onClick={() => navigate(`/product/list`)}
-                        color='primary'
-                        fullWidth
-                    >
-                        Back
-                    </Button>
-                </Grid>
-            </Paper>
-        </form>
+                            <Grid item>
+                                <TextField
+                                    id="name"
+                                    name="name"
+                                    label="Name"
+                                    type="text"
+                                    error={nameHelper.length !== 0}
+                                    helperText={nameHelper}
+                                    value={formValues.name}
+                                    onChange={onChange}
+                                />
+                            </Grid>
+                            <Grid item>
+                                <TextField
+                                    id="author"
+                                    name="author"
+                                    label="Author"
+                                    type="text"
+                                    error={authorHelper.length !== 0}
+                                    helperText={authorHelper}
+                                    value={formValues.author}
+                                    onChange={onChange}
+                                />
+                            </Grid>
+                            <Grid item>
+                                <TextField
+                                    id="imageUrl"
+                                    name="imageUrl"
+                                    label="ImageUrl"
+                                    type="text"
+                                    error={imageUrlHelper.length !== 0}
+                                    helperText={imageUrlHelper}
+                                    value={formValues.imageUrl}
+                                    onChange={onChange}
+                                />
+                            </Grid>
+                            <Grid item>
+                                <TextField
+                                    id="price"
+                                    name="price"
+                                    label="Price"
+                                    type="number"
+                                    error={priceHelper.length !== 0}
+                                    helperText={priceHelper}
+                                    value={formValues.price}
+                                    onChange={onChange}
+                                />
+                            </Grid>
+                            <Grid item>
+                                <TextField
+                                    id="description"
+                                    name='description'
+                                    label="Description"
+                                    multiline
+                                    minRows={4}
+                                    value={formValues.description}
+                                    error={descriptionHelper.length !== 0}
+                                    helperText={descriptionHelper}
+                                    onChange={onChange}
+                                />
+                            </Grid>
+                            <Button
+                                disabled={
+                                    formValues.name.length === 0 ||
+                                    formValues.author.length === 0 ||
+                                    formValues.description.length === 0 ||
+                                    formValues.imageUrl.length === 0 ||
+                                    formValues.price === 0 || nameHelper.length !== 0 ||
+                                    authorHelper.length !== 0 || descriptionHelper.length !== 0 ||
+                                    imageUrlHelper.length !== 0 || priceHelper.length !== 0
+                                }
+                                className={classes.button}
+                                variant='contained'
+                                type='submit'
+                                color='primary'
+                                fullWidth>
+                                Create
+                            </Button>
+                            <Button
+                                className={classes.button}
+                                variant='contained'
+                                onClick={() => navigate(`/product/list`)}
+                                color='primary'
+                                fullWidth
+                            >
+                                Back
+                            </Button>
+                        </Grid>
+                    </Paper>
+                </form>
+            }{!auth.currentUser&& navigate('/login') }
+            </>
     )
 }
 

@@ -2,17 +2,13 @@ import React from 'react'
 import { Link, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import useStyles from './detailsProductStyle';
-import { Card, CardActionArea, CardActions, CardMedia, CardContent, Button, Typography, Grid, Paper, styled, ButtonBase, Box, CardHeader, IconButton } from '@material-ui/core';
-import { async } from '@firebase/util';
-import { doc, getDoc } from 'firebase/firestore';
-import { auth, db } from '../../../lib/init-firebase';
+import {  CardActions, CardMedia, CardContent, Button, Typography, Grid,  Box,  } from '@material-ui/core';
+import { auth } from '../../../lib/init-firebase';
 import { getProductById } from '../../../lib/firebase.fetch';
 import { ShoppingBasket } from '@material-ui/icons';
-import { theme } from '../../../theme';
 import { deleteProduct } from '../../../lib/firebase.fetch';
 import { useNavigate } from 'react-router-dom';
-import { ProductContext } from '../../../contexts/ProductContext';
-import { useEffect, useContext } from 'react';
+import { useEffect} from 'react';
 
 
 const DetailsProduct = () => {

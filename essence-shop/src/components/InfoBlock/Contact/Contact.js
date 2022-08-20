@@ -30,16 +30,13 @@ export default function Contact(props) {
     const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
 
     const [name, setName] = useState("");
-    const [nameHelper, setNameHelper] = useState('')
     const [email, setEmail] = useState("");
     const [emailHelper, setEmailHelper] = useState('')
     const [phone, setPhone] = useState("");
     const [phoneHelper, setPhoneHelper] = useState("");
     const [message, setMessage] = useState("");
     const [open, setOpen] = useState(false)
-    const [loading, setLoading] = useState(false);
     const [alert, setAlert] = useState(false);
-    const [alertMessage, setAlertMesssage] = useState("");
 
     const onChange = event => {
         let valid;

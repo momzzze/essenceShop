@@ -131,7 +131,7 @@ const Cart = ({ updateUserData }) => {
 
     return (
         <>
-
+            {!auth.currentUser&& redirect('/login')}
             {cartProducts.length > 0 && (
                 <div>
                     <div>
@@ -150,6 +150,8 @@ const Cart = ({ updateUserData }) => {
             {cartProducts.length < 1 && (
                 <div>No products to show</div>
             )}
+
+
         </>
     )
 }
