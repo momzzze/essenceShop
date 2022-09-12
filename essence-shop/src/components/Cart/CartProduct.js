@@ -19,7 +19,7 @@ const CartProduct = ({
     const incrementHandler = () => {
         cartProductIncrease(cartProduct);
     }
-    const removeItemFromCart=()=>{
+    const removeItemFromCart = () => {
         removeProduct(cartProduct);
     }
 

@@ -1,12 +1,10 @@
 import { ThemeProvider } from '@emotion/react';
-import { Grid, Paper, Avatar, FormControlLabel, Checkbox, Button, Typography, Link } from '@material-ui/core';
+import { Grid, Paper, Avatar, Button, Typography, Link } from '@material-ui/core';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import { Alert, TextField } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import makeStyles, { themeAuth } from '../authStyle';
 import { register } from '../authLogic';
-import { async } from '@firebase/util';
-import { auth } from '../../../lib/init-firebase';
 import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
@@ -33,7 +31,6 @@ const Register = () => {
     const nameChangeHandler = (e) => {
         setName(e.target.value);
     }
-
     const registerHandler = (e) => {
         e.preventDefault();
         if (registerPassword !== registerConfirmPassword) {
@@ -42,20 +39,17 @@ const Register = () => {
         setError("");
         setLoading(true);
         register({ registerEmail, registerPassword, name })
-        .then(res => {
-            if (res) {
-                setError(res);
-            } else {
-                navigate('/', { replace: true });
-            }
+            .then(res => {
+                if (res) {
+                    setError(res);
+                } else {
+                    navigate('/', { replace: true });
+                }
 
-        })
+            })
         setLoading(false);
     }
-
-
     return (
-
         <ThemeProvider theme={theme}>
             <form onSubmit={registerHandler}>
                 <Grid>
@@ -146,5 +140,4 @@ const Register = () => {
 
     )
 }
-
 export default Register

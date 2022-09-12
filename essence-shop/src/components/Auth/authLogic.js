@@ -1,6 +1,5 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { addDoc, doc, collection, setDoc } from 'firebase/firestore';
-import { userCollectionRef } from '../../lib/firestore.collections';
+import { doc,  setDoc } from 'firebase/firestore';
 import { auth, db, } from '../../lib/init-firebase';
 
 export const login = async ({

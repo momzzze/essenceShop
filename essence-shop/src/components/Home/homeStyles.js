@@ -28,5 +28,6 @@ export default makeStyles((theme) => ({
         alignItems: "center",
         color: "#fff",
         fontSize: "4rem",
+        marginTop: '-14px'
     }
 }));

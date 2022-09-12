@@ -1,0 +1,12 @@
+image address: https://d3rf6j5nx5r04a.cloudfront.net/9ZRmpw_zUEnmtxRTcepZcO39gRo=/1120x0/product/9/a/e0a881b5cd3142878e3032bf82da6011_opt.jpg
+author: Tatiana Georgieva
+name:Nubis IV
+description: Original semi-abstract landscape painting by Tatiana Georgieva - 'Australis' collection.All my paintings are finished with a good layer of Semi-gloss varnish for bright colors and clear permanent protection for years. Each painting is one of a kind.
+price:47
+
+
+image https://d3rf6j5nx5r04a.cloudfront.net/i5XffoaL4RuW7ZTEdrri7hLwc0w=/1120x0/product/4/e/1ebfbcdcae7d4fb29d61a01d216116f1_opt.jpg
+author: Guzel Min
+name: Magic Pond
+description: Oil painting on linen canvas.Ships worldwide from Japan. With Certificate of Authenticity
+price:56

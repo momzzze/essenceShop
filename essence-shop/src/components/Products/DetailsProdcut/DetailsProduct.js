@@ -18,8 +18,6 @@ const DetailsProduct = () => {
   const [error, setError] = useState("");
   const [prod, setprod] = useState({});
   // const [cart, setCart] = useState([]);
-
-
   useEffect(() => {
     getProductById(productId).then((res) => {
       setprod(res);
@@ -31,8 +29,6 @@ const DetailsProduct = () => {
     deleteProduct(productId);
     redirect('/product/list');
   }
-
-
   return (
     <>
       <Box display='flex' alignContent='center' justifyContent="center">

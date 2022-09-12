@@ -1,5 +1,5 @@
 import { ThemeProvider } from '@emotion/react';
-import { Grid, Paper, Avatar, FormControlLabel, Checkbox, Button, Typography, Link } from '@material-ui/core';
+import { Grid, Paper, Avatar,  Button, Typography, Link } from '@material-ui/core';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import { Alert, TextField } from '@mui/material';
 import React, { useState } from 'react';
@@ -31,8 +31,6 @@ const Login = () => {
             }
         })
 
-
-        // navigate('/',{ replace: true });
     }
     return (
         <ThemeProvider theme={theme}>
@@ -60,7 +58,6 @@ const Login = () => {
                             }}
                             onChange={emailChangeHandler}
                         />
-
                         <TextField
                             required
                             id="password"
@@ -79,7 +76,6 @@ const Login = () => {
                             }}
                             onChange={passwordChangeHandler}
                         />
-
                         <Button className={classes.button} variant='contained' type='submit' color='primary' fullWidth>Sign in</Button>
                         <Typography> You don't have an accaunt ?
                             <Link href="/register">
@@ -93,5 +89,4 @@ const Login = () => {
 
     )
 }
-
 export default Login

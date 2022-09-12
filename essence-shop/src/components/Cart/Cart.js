@@ -1,14 +1,7 @@
-import { collection, doc, getDoc, getDocs, onSnapshot, query, where } from 'firebase/firestore'
+import { collection, doc, getDoc, getDocs} from 'firebase/firestore'
 import React, { useContext, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import { ProductContext } from '../../contexts/ProductContext'
-import { cartCollectionRef } from '../../lib/firestore.collections'
-import CartProduct from './CartProduct'
 import { useState } from 'react';
-import { Main } from './Main';
-import { Drawer, LinearProgress, Grid, Badge, Button } from '@material-ui/core';
-import useStyles from './cartStyle.js';
-import { AddShoppingCart } from '@material-ui/icons'
 import { deleteItemFromCart, deleteUserCart, editCart, editProduct, getCartByUserId } from '../../lib/firebase.fetch'
 import { auth, db } from '../../lib/init-firebase'
 import CartProducts from './CartProducts';
